@@ -82,6 +82,7 @@ td.stat-cell{width:95px}
 .SAFE{background:var(--safe);color:#000}
 .LOW{background:var(--low);color:#000}
 .BTM2{background:var(--btm);color:#fff}
+.IMMUNE{background:#2ecc71;color:#fff}
 .ELIM{background:var(--elim);color:#fff}
 .ELIM_GOLD{background:#f5c518;color:#000;border:2px solid #ffec5c !important}
 .BTM_BADUNK{background:#ff4d9a;color:#fff;border:3px solid #ffd700 !important}
@@ -187,7 +188,13 @@ td.stat-cell{width:95px}
           <select id="isSplit"><option value="no">Não</option><option value="yes">Sim</option></select>
         </label>
         <label>Formato Final
-          <select id="fSize" onchange="updateUI()"><option value="3" selected>TOP 3</option><option value="2">TOP 2</option><option value="4">TOP 4</option></select>
+          <select id="fSize" onchange="updateUI()">
+            <option value="random" selected>🎲 Aleatório (TOP 2-5)</option>
+            <option value="2">TOP 2</option>
+            <option value="3">TOP 3</option>
+            <option value="4">TOP 4</option>
+            <option value="5">TOP 5</option>
+          </select>
         </label>
         <label>Formato da temporada
           <select id="elimType" onchange="onFormatChange()">
@@ -220,10 +227,48 @@ td.stat-cell{width:95px}
             <label><input type="checkbox" id="cNoElim"> Episódio sem eliminação</label>
             <label><input type="checkbox" id="cReturn" onchange="document.getElementById('returnBox').style.display=this.checked?'block':'none'"> Retorno de queen</label>
             <label><input type="checkbox" id="cGolden"> 🍫 Golden Bar (retorno imediato)</label>
-            <label><input type="checkbox" id="cBadunk"> 🎰 Badunktank (alavanca da salvação)</label>
             <label><input type="checkbox" id="cLala"> 🎤 Lalaparuza Smackdown (forçada no Top 8)</label>
             <label><input type="checkbox" id="cCunt"> 👑 CUNT (Top 5 — 3 desafios + 1 lipsync)</label>
             <label><input type="checkbox" id="cPremNoElim"> 🎬 Premiere TOP2 sem eliminação</label>
+            <label><input type="checkbox" id="cLSFTF"> 🎤 Lipsync For The Finale (Top 4 → 3)</label>
+            <label><input type="checkbox" id="cRupaul"> 👑 Modo RuPaul (controle manual inline)</label>
+            <label><input type="checkbox" id="cNoWin"> 🫥 Episódio sem WIN/HIGH (todas SAFE pra cima)</label>
+            <label><input type="checkbox" id="cBtm6"> 🔻 Bottom 6 (6 dublam, 1 elim)</label>
+            <label><input type="checkbox" id="cFlop"> 💥 Flop Total (todas BTM → Lalaparuza Flop)</label>
+            <label><input type="checkbox" id="cTop3LSFTW" checked> 🎤 TOP3 LSFTW (20% em Legacy)</label>
+          </div>
+          <div style="margin-top:10px;padding:8px;background:#fff;border:1px dashed #ccc;border-radius:6px">
+            <b style="font-size:11px">🎰 Badunktank</b>
+            <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;align-items:center;font-size:11px">
+              <label style="flex:1;min-width:160px">Quando acontece
+                <select id="badunkMode" onchange="document.getElementById('badunkEpBox').style.display=this.value==='ep'?'block':'none'">
+                  <option value="off">Desativado</option>
+                  <option value="random">Aleatório (até o limite)</option>
+                  <option value="ep">Eu escolho o episódio</option>
+                </select>
+              </label>
+              <label style="flex:1;min-width:120px">Limite por temporada
+                <select id="badunkMax">
+                  <option value="1" selected>1 (padrão)</option>
+                  <option value="2">2 (máximo)</option>
+                </select>
+              </label>
+              <div id="badunkEpBox" style="display:none;flex:1;min-width:150px">
+                <label>Episódios (ex: 5 ou 5,8)
+                  <input type="text" id="badunkEps" placeholder="5,8" style="font-size:11px">
+                </label>
+              </div>
+            </div>
+            <div style="font-size:10px;color:#666;margin-top:4px">A queen ELIMINADA daquele episódio retorna automaticamente. Não acontece eliminação.</div>
+          </div>
+          <div style="margin-top:10px;padding:8px;background:#fff;border:1px dashed #ccc;border-radius:6px">
+            <b style="font-size:11px">🏆 Modo da Finale</b>
+            <select id="finaleMode" style="margin-top:4px;font-size:11px">
+              <option value="random" selected>🎲 Aleatório (sem saber qual)</option>
+              <option value="score">Score-based (vence melhor PPE)</option>
+              <option value="lsftc">Lipsync For The Crown (sempre dubla)</option>
+            </select>
+            <div style="font-size:10px;color:#666;margin-top:4px">Score-based: vence quem tem melhor PPE (qualquer Top N). LSFTC: sempre dubla até definir a winner — TOP5 corta 3 e top2 dubla; TOP4 tem rounds; TOP3 corta 1 e duas dublam; TOP2 dubla direto. Double Crown pode rolar (15%).</div>
           </div>
           <div id="returnBox" style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed #ccc">
             <label style="font-weight:500">Episódio do retorno
@@ -279,6 +324,7 @@ td.stat-cell{width:95px}
     <button class="btn btn-step" style="max-width:320px;display:inline-block" onclick="nextStep()">▶ Próximo episódio</button>
   </div>
 
+  <div id="rupaulPanel" style="display:none"></div>
   <div id="tableOutput"></div>
 
   <div id="historyBar" class="history-bar" style="display:none">
@@ -549,7 +595,7 @@ function randomizeAll(){
   document.getElementById("cDoubleSashay").checked = Math.random()<0.3;
   document.getElementById("cNoElim").checked = Math.random()<0.4;
   document.getElementById("cGolden").checked = Math.random()<0.3;
-  document.getElementById("cBadunk").checked = Math.random()<0.2;
+  document.getElementById("badunkMode").value = Math.random()<0.2 ? "random" : "off";
   document.getElementById("cLala").checked = Math.random()<0.4;
   const ret = Math.random()<0.5;
   document.getElementById("cReturn").checked = ret;
@@ -665,7 +711,13 @@ function runSimulation(stepMode){
   if(document.getElementById("elimType").value === "bracket"){
     return runBracketSimulation(stepMode);
   }
-  const fs = parseInt(document.getElementById("fSize").value);
+  let fs;
+  const fsRaw = document.getElementById("fSize").value;
+  if(fsRaw === "random"){
+    fs = 2 + Math.floor(Math.random()*4); // 2..5
+  } else {
+    fs = parseInt(fsRaw);
+  }
   if(selectedNames.length <= fs) return alert("Selecione mais queens que o tamanho da final!");
 
   const cast = selectedNames.map(n => ({ name:n, track:[], out:false, rank:99, wins:0, outEp:999, returned:false, badunkUsed:false }));
@@ -685,7 +737,9 @@ function runSimulation(stepMode){
       useNoElim: document.getElementById("cNoElim").checked,
       useReturn: document.getElementById("cReturn").checked,
       useGolden: document.getElementById("cGolden").checked,
-      useBadunk: document.getElementById("cBadunk").checked,
+      badunkMode: document.getElementById("badunkMode").value,
+      badunkMax: parseInt(document.getElementById("badunkMax").value)||1,
+      badunkEps: (document.getElementById("badunkEps").value||"").split(",").map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)),
       returnPickVal: document.getElementById("returnPick").value,
       returnEpVal: document.getElementById("returnEp").value,
       premierePick: document.getElementById("premiereChal").value,
@@ -693,6 +747,14 @@ function runSimulation(stepMode){
       acting: document.getElementById("cActing").checked,
       quitOn: document.getElementById("cQuit").checked,
       useCunt: document.getElementById("cCunt").checked,
+      useLSFTF: document.getElementById("cLSFTF").checked,
+      useDoubleCrown: true, // sempre ativo na lógica, 15% de chance
+      useRupaul: document.getElementById("cRupaul")?.checked,
+      useNoWin: document.getElementById("cNoWin")?.checked,
+      useBtm6: document.getElementById("cBtm6")?.checked,
+      useFlop: document.getElementById("cFlop")?.checked,
+      useTop3LSFTW: document.getElementById("cTop3LSFTW")?.checked,
+      finaleMode: document.getElementById("finaleMode").value,
     }
   };
   const totalEpsBeforeFinal = Math.max(SIM.active.length - fs, 1);
@@ -704,6 +766,13 @@ function runSimulation(stepMode){
     document.getElementById("stepControls").style.display = "block";
     renderTable();
   } else {
+    // Em modo RuPaul, full-run não faz sentido — força passo a passo
+    if(SIM.cfg.useRupaul){
+      document.getElementById("stepControls").style.display = "block";
+      simulateOneEpisode();
+      renderTable();
+      return;
+    }
     let guard = 0;
     while(!SIM.finished && guard++ < 200) simulateOneEpisode();
     document.getElementById("stepControls").style.display = "none";
@@ -713,6 +782,7 @@ function runSimulation(stepMode){
 
 function nextStep(){
   if(!SIM || SIM.finished){ alert("Simulação concluída."); return; }
+  if(SIM.awaitingRupaul){ alert("Confirme o episódio do Modo RuPaul antes de avançar."); return; }
   simulateOneEpisode();
   renderTable();
   if(SIM.finished) document.getElementById("stepControls").style.display = "none";
@@ -751,21 +821,38 @@ function simulateOneEpisode(){
     }
   }
 
+  // LSFTF: Lipsync For The Finale — corte de Top 4 → Top 3 via dublagens
+  if(C.useLSFTF && !S.lsftfUsed && S.active.length === 4 && C.fs <= 3){
+    S.lsftfUsed = true;
+    S.eps.push({ num: S.epCount, name: "Lipsync For The Finale", lsftf:true });
+    S.active.forEach(q => padTrack(q, S.epCount-1));
+    runLSFTF(S.active.slice());
+    cleanupAfterEp();
+    return;
+  }
+
   const isPremiere = (S.epCount === 1 || (C.split && S.epCount === 2));
+  // RuPaul mode bypasses premiere restriction (começa no EP1)
+  const rupaulActive = C.useRupaul;
   const epIdx = S.epCount - 1;
 
   let chal;
-  if(isPremiere){
+  // Lalaparuza-Flop forçada (após Flop Total no episódio anterior)
+  if(S.flopLalaPending){
+    chal = "LalaparuzaFlop";
+    S.flopLalaPending = false;
+  } else if(isPremiere){
     chal = (C.premierePick === "random") ? pickRandomChal() : C.premierePick;
   } else {
     chal = customQueue[epIdx] || pickRandomChal();
   }
-  if(C.useLala && !S.lalaUsed && !isPremiere && S.active.length === 8){
+  if(C.useLala && !S.lalaUsed && !isPremiere && S.active.length === 8 && chal !== "LalaparuzaFlop"){
     chal = "Lalaparuza";
   }
   if(chal === "Duo Challenge" && S.active.length % 2 !== 0 && !isPremiere) chal = "Design";
   if(chal === "Lalaparuza" && S.active.length !== 8){ chal = "Design"; }
-  if(chal === "Face-Off" && !(S.active.length >= 6 && S.active.length <= 12)) chal = "Photoshoot";
+  // Face-Off: somente TOP10, TOP8 ou TOP6
+  if(chal === "Face-Off" && ![6,8,10].includes(S.active.length)) chal = "Photoshoot";
 
   S.eps.push({ num: S.epCount, name: chal });
   S.active.forEach(q => padTrack(q, epIdx));
@@ -787,14 +874,60 @@ function simulateOneEpisode(){
 
   if(C.useCunt && !S.cuntUsed && !isPremiere && S.active.length === 5){
     S.cuntUsed = true;
-    // override challenge label
     S.eps[S.eps.length-1].name = "CUNT";
     S.eps[S.eps.length-1].cunt = true;
     runCunt(parts);
     cleanupAfterEp();
     return;
   }
+  if(chal === "LalaparuzaFlop"){
+    S.eps[S.eps.length-1].name = "Lalaparuza Flop";
+    S.eps[S.eps.length-1].flopLala = true;
+    runLalaparuzaFlop(parts);
+    applyTwistsPostElim();
+    cleanupAfterEp();
+    return;
+  }
   if(chal === "Lalaparuza" && !splitNoElim){ S.lalaUsed = true; runLalaparuza(parts); applyTwistsPostElim(); cleanupAfterEp(); return; }
+  if(chal === "Face-Off" && !splitNoElim){
+    S.eps[S.eps.length-1].name = "Face-Off";
+    runFaceOff(parts);
+    applyTwistsPostElim();
+    cleanupAfterEp();
+    return;
+  }
+  // MODO RUPAUL — controle manual inline (vale também no EP1)
+  if(rupaulActive && !splitNoElim && !premNoElim){
+    runRupaulManual(parts, chal);
+    return; // confirmRupaul fará applyTwistsPostElim + cleanupAfterEp
+  }
+
+  // TWISTS NOVOS (não-premiere)
+  if(!isPremiere && !splitNoElim && !premNoElim){
+    // Flop Total (~7%)
+    if(C.useFlop && !S.flopUsed && S.active.length >= 6 && S.active.length > C.fs+1 && Math.random() < 0.07){
+      S.flopUsed = true;
+      runFlopTotal(parts);
+      cleanupAfterEp();
+      return;
+    }
+    // Bottom 6 (~10%)
+    if(C.useBtm6 && !S.btm6Used && S.active.length >= 8 && S.active.length > C.fs+2 && Math.random() < 0.10){
+      S.btm6Used = true;
+      runBottom6(parts);
+      applyTwistsPostElim();
+      cleanupAfterEp();
+      return;
+    }
+    // Sem WIN/HIGH (~10%)
+    if(C.useNoWin && !S.noWinUsed && S.active.length >= 6 && Math.random() < 0.10){
+      S.noWinUsed = true;
+      runNoWinHigh(parts);
+      applyTwistsPostElim();
+      cleanupAfterEp();
+      return;
+    }
+  }
 
   const isGroupWin = C.gg && (chal === "Girl Group" || chal === "Duo Challenge");
   if(isGroupWin && !splitNoElim){
@@ -860,6 +993,11 @@ function simulateOneEpisode(){
     return;
   }
 
+  // Random Double Win — fora de Girl Group/Duo, ~7% chance de WIN duplo aleatório
+  const allowDoubleWin = !isGroupWin && !splitNoElim && !premNoElim && parts.length >= 4 && Math.random() < 0.07;
+  // TOP3 LSFTW — em Legacy, 20% chance vira TOP3 dublando pelo win
+  const allowTop3LSFTW = C.isLegacy && C.useTop3LSFTW && !isGroupWin && !splitNoElim && !premNoElim && !isPremiere && parts.length >= 5 && Math.random() < 0.20;
+  if(allowTop3LSFTW) S.eps[S.eps.length-1].top3LSFTW = true;
   parts.forEach((q, idx) => {
     let res = "SAFE";
     const last = parts.length - 1;
@@ -872,17 +1010,19 @@ function simulateOneEpisode(){
       else if(idx < half) res = "HIGH";
       else res = "SAFE";
     } else if(C.isLegacy){
+      // Legacy: TOP2 dublam pelo win. Em double-win, ambas saem WIN. Em TOP3 LSFTW (20%), três dublam.
+      const top2Slots = allowTop3LSFTW ? 3 : (allowDoubleWin ? 2 : 2);
       if(idx === 0){ res = "WIN"; q.wins++; }
-      else if(idx === 1){ res = "TOP2"; q.wins++; }
+      else if(idx < top2Slots){ res = (allowDoubleWin && !allowTop3LSFTW) ? "WIN" : "TOP2"; q.wins++; }
       else if(quitter){ if(idx >= last-1) res = "LOW"; }
       else if(doShantay && idx >= last-1) res = "DSHANTAY";
       else if(doSashay && idx >= last-1){ res="ELIM"; q.out=true; q.rank=S.active.length-(last-idx); q.outEp=S.epCount; }
       else if(idx === last){ res = "ELIM"; q.out = true; q.rank = S.active.length; q.outEp = S.epCount; }
       else if(idx === last-1) res = "BTM2";
-      else if(idx === 2) res = "HIGH";
+      else if(idx === 2 && !allowTop3LSFTW) res = "HIGH";
       else if(idx === last-2 && last >= 5) res = "LOW";
     } else {
-      const winSlots = isGroupWin ? (chal==="Duo Challenge"?2:3) : 1;
+      const winSlots = isGroupWin ? (chal==="Duo Challenge"?2:3) : (allowDoubleWin ? 2 : 1);
       if(idx < winSlots && idx <= last-2){
         res = isGroupWin ? "WIN_GG" : "WIN";
         q.wins++;
@@ -927,29 +1067,32 @@ function applyTwistsPostElim(){
     S.goldenUsed = true;
   }
 
-  if(C.useBadunk && S.eliminated.length > 0 && S.active.length-1 > C.fs+1 && !S.badunkRanThisEp){
-    S.badunkRanThisEp = true;
-    const candidates = S.eliminated.filter(q => !q.badunkUsed);
-    if(candidates.length){
-      const q = candidates[Math.floor(Math.random()*candidates.length)];
-      q.badunkUsed = true;
-      if(Math.random() < 0.25){
-        q.out = false; q.rank = 99; q.outEp = 999; q.returned = true;
-        padTrack(q, SIM.epCount-1);
-        q.track.push({ status: "BTM_BADUNK", mini:false });
-        SIM.active.push(q);
-        SIM.eliminated.splice(SIM.eliminated.indexOf(q), 1);
-        justElim.forEach(je => {
-          if(je.out){
-            je.out = false; je.rank = 99; je.outEp = 999;
-            const tt = je.track[je.track.length-1];
-            tt.status = "BTM_BADUNK_PINK";
-          }
-        });
-        SIM.active.forEach(aq => {
-          const t = aq.track[aq.track.length-1];
-          if(t && t.status === "BTM2") t.status = "LOW";
-        });
+  // BADUNKTANK — a queen ELIMINADA neste episódio retorna automaticamente.
+  // Não há eliminação real. Cell vira pink com borda dourada.
+  const bMode = C.badunkMode;
+  if(bMode && bMode !== "off"){
+    const used = SIM.badunkUsedCount || 0;
+    const max = C.badunkMax || 1;
+    if(used < max){
+      let trigger = false;
+      if(bMode === "ep"){
+        trigger = (C.badunkEps || []).includes(SIM.epCount);
+      } else if(bMode === "random"){
+        // chance proporcional para distribuir os usos restantes pelos episódios restantes
+        const remainingUses = max - used;
+        const remainingEps = Math.max(1, SIM.active.length - C.fs);
+        trigger = Math.random() < (remainingUses / remainingEps) * 0.6;
+      }
+      if(trigger){
+        // pega a primeira eliminada deste ep e a "salva"
+        const lucky = justElim[0];
+        if(lucky){
+          lucky.out = false; lucky.rank = 99; lucky.outEp = 999; lucky.returned = true;
+          const t = lucky.track[lucky.track.length-1];
+          t.status = "BTM_BADUNK";
+          t.badunk = true;
+          SIM.badunkUsedCount = used + 1;
+        }
       }
     }
   }
@@ -969,11 +1112,86 @@ function finalizeSeason(){
   if(S.finished) return;
   S.active.forEach(q => padTrack(q, S.eps.length));
   S.eps.push({ num:"FINAL", name:"Grand Finale" });
-  S.active.forEach(q => q.finalScore = lipsyncScore(q) + q.wins*0.3);
-  S.active.sort((a,b) => b.finalScore - a.finalScore).forEach((q, i) => {
-    q.track.push({ status: i===0 ? "WINNER" : "RUNNERUP", mini:false });
-    q.rank = i;
-  });
+  const finalEp = S.eps[S.eps.length-1];
+  const fs = S.cfg.fs;
+  let mode = S.cfg.finaleMode || "random";
+  if(mode === "random" || mode === "auto"){
+    mode = Math.random() < 0.5 ? "score" : "lsftc";
+  }
+  // Double Crown sempre na lógica: 15% de chance se >= 2 finalistas
+  const wantDoubleCrown = S.active.length >= 2 && Math.random() < 0.15;
+
+  function award(rankedActives){
+    rankedActives.forEach((q,i) => { q.rank = i; });
+    if(wantDoubleCrown && rankedActives.length >= 2){
+      rankedActives[0].track.push({status:"WINNER", mini:false});
+      rankedActives[1].track.push({status:"WINNER", mini:false, doubleCrown:true});
+      rankedActives[0].rank = 0; rankedActives[1].rank = 0;
+      for(let i=2;i<rankedActives.length;i++) rankedActives[i].track.push({status:"RUNNERUP", mini:false});
+      finalEp.doubleCrown = true;
+    } else {
+      rankedActives.forEach((q,i) => q.track.push({status: i===0 ? "WINNER" : "RUNNERUP", mini:false}));
+    }
+  }
+
+  function lsftcRounds(pool, targetSize){
+    // duelos 1v1 até atingir targetSize; suporta números ímpares (último avança bye).
+    while(pool.length > targetSize){
+      const sh = [...pool].sort(()=>Math.random()-0.5);
+      const winners = [], roundDuels = [];
+      for(let i=0;i<sh.length;i+=2){
+        const a = sh[i], b = sh[i+1];
+        if(!b){ winners.push(a); continue; }
+        a.score = lipsyncScore(a); b.score = lipsyncScore(b);
+        const song = pickSong();
+        const winA = a.score >= b.score;
+        const w = winA ? a : b, l = winA ? b : a;
+        winners.push(w);
+        roundDuels.push({a:a.name,b:b.name,winner:w.name,loser:l.name,song});
+      }
+      finalEp.lsftc.push({label:`Round (Top ${pool.length})`, duels:roundDuels});
+      pool = winners;
+    }
+    return pool;
+  }
+
+  if(mode === "lsftc"){
+    finalEp.lsftc = [];
+    let pool = S.active.slice();
+    pool.forEach(q => q.score = lipsyncScore(q));
+
+    // TOP5: corta 3 (piores por lipsync score) → 2 dublam
+    // TOP3: corta 1 → 2 dublam
+    // TOP4: rounds (4→2→1)
+    // TOP2: dubla direto
+    let cut = [];
+    if(fs === 5 && pool.length === 5){
+      const ranked = pool.slice().sort((a,b)=>b.score-a.score);
+      pool = ranked.slice(0,2);
+      cut = ranked.slice(2);
+      finalEp.preCut = {kept:pool.map(q=>q.name), cut:cut.map(q=>q.name), reason:"TOP5 → corte para TOP2"};
+    } else if(fs === 3 && pool.length === 3){
+      const ranked = pool.slice().sort((a,b)=>b.score-a.score);
+      pool = ranked.slice(0,2);
+      cut = ranked.slice(2);
+      finalEp.preCut = {kept:pool.map(q=>q.name), cut:cut.map(q=>q.name), reason:"TOP3 → corte para TOP2"};
+    }
+
+    const targetSize = wantDoubleCrown ? 2 : 1;
+    const finalists = lsftcRounds(pool, targetSize);
+
+    // Caso especial: ficou com 2 e queremos 1 e não temos round registrado para esse último duelo
+    // lsftcRounds já cuida disso (loop until size==target).
+
+    const losers = S.active.filter(q => !finalists.includes(q) && !cut.includes(q));
+    // Ranking final: vencedoras (finalists) → perdedoras de rounds (na ordem reversa de saída) → cortadas inicialmente
+    award([...finalists, ...losers, ...cut]);
+  } else {
+    // score-based: simplesmente vence quem tem melhor PPE final
+    S.active.forEach(q => q.finalScore = lipsyncScore(q) + q.wins*0.3);
+    const ranked = S.active.slice().sort((a,b) => b.finalScore - a.finalScore);
+    award(ranked);
+  }
   S.finished = true;
 }
 
@@ -1083,33 +1301,265 @@ function runCunt(parts){
   elim.out = true; elim.outEp = S.epCount; elim.rank = S.active.length;
 }
 
+// MODO RUPAUL — controle manual via PAINEL INLINE (não usa prompt())
+function runRupaulManual(parts, chal){
+  const S = SIM;
+  // Marca pendente; renderTable() desenhará o painel
+  S.awaitingRupaul = { parts: parts.slice(), chal, epCount: S.epCount };
+  renderTable();
+  renderRupaulPanel();
+}
+
+function renderRupaulPanel(){
+  const S = SIM;
+  const wrap = document.getElementById("rupaulPanel");
+  if(!wrap) return;
+  if(!S || !S.awaitingRupaul){ wrap.style.display = "none"; wrap.innerHTML = ""; return; }
+  const { parts, chal, epCount } = S.awaitingRupaul;
+  const opts = ["SAFE","WIN","HIGH","LOW","BTM2","ELIM"];
+  let h = `<div style="background:#fff8e1;border:2px solid #ff2d87;border-radius:10px;padding:14px;margin:14px 0">
+    <h3 style="margin:0 0 8px;color:#ff2d87">👑 MODO RUPAUL — Ep ${epCount} (${chal})</h3>
+    <div style="font-size:11px;color:#666;margin-bottom:10px">Defina o status de cada queen. Marque <b>Mini</b> para a vencedora do mini challenge. Clique em "Confirmar episódio" para continuar.</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="background:#111;color:#fff"><th style="padding:6px;text-align:left">Queen</th><th style="padding:6px">Status</th><th style="padding:6px">Mini</th></tr></thead>
+      <tbody>`;
+  parts.forEach((q,i)=>{
+    h += `<tr style="border-bottom:1px solid #eee"><td style="padding:6px"><b>${q.name}</b></td>
+      <td style="padding:6px"><select id="ru_st_${i}" style="width:100%">${opts.map(o=>`<option value="${o}" ${o==='SAFE'?'selected':''}>${o}</option>`).join("")}</select></td>
+      <td style="padding:6px;text-align:center"><input type="radio" name="ru_mini" id="ru_mini_${i}" value="${i}"></td>
+    </tr>`;
+  });
+  h += `</tbody></table>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button onclick="confirmRupaul()" style="background:#ff2d87;color:#fff;border:0;padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer">✓ Confirmar episódio</button>
+    </div>
+  </div>`;
+  wrap.innerHTML = h;
+  wrap.style.display = "block";
+}
+
+function confirmRupaul(){
+  const S = SIM;
+  if(!S || !S.awaitingRupaul) return;
+  const { parts } = S.awaitingRupaul;
+  let miniIdx = -1;
+  parts.forEach((_,i)=>{ if(document.getElementById(`ru_mini_${i}`)?.checked) miniIdx = i; });
+  let elimCounter = 0;
+  parts.forEach((q,i)=>{
+    const st = document.getElementById(`ru_st_${i}`)?.value || "SAFE";
+    if(st === "WIN") q.wins++;
+    if(st === "ELIM"){
+      q.out = true; q.outEp = S.epCount;
+      q.rank = S.active.length - elimCounter;
+      elimCounter++;
+    }
+    q.track.push({ status: st, mini: i === miniIdx });
+  });
+  S.awaitingRupaul = null;
+  applyTwistsPostElim();
+  cleanupAfterEp();
+  renderTable();
+  renderRupaulPanel();
+}
+
+// FLOP TOTAL — 1 vence o desafio, resto vai pro bottom. Próximo ep é Lalaparuza Flop.
+function runFlopTotal(parts){
+  const S = SIM;
+  parts.forEach(q => q.score = computeScore(q, S.eps[S.eps.length-1].name));
+  const ranked = [...parts].sort((a,b)=>b.score-a.score);
+  const winner = ranked[0];
+  const losers = ranked.slice(1);
+  winner.track.push({ status:"WIN", mini:false, flop:true });
+  winner.wins++;
+  const btmCount = losers.length;
+  losers.forEach(q => q.track.push({ status:"BTM2", mini:false, flop:true, btmCount }));
+  S.flopLalaPending = true;
+  S.flopWinnerName = winner.name;
+  S.eps[S.eps.length-1].flopWinner = winner.name;
+}
+
+// LALAPARUZA FLOP — vencedora do ep anterior está IMUNE; resto dubla pela vida em rounds eliminatórios
+function runLalaparuzaFlop(parts){
+  const S = SIM;
+  const ep = S.eps[S.eps.length-1];
+  ep.flopLalaRounds = [];
+  const immuneName = S.flopWinnerName;
+  const immune = parts.find(q => q.name === immuneName);
+  const dueling = parts.filter(q => q.name !== immuneName);
+  if(immune){
+    immune.track.push({ status:"IMMUNE", mini:false, flopLala:true });
+    ep.flopImmune = immune.name;
+  }
+  dueling.forEach(q => q.score = computeScore(q, "Lipsync"));
+  let pool = [...dueling].sort(()=>Math.random()-0.5);
+  const totalLosers = dueling.length - 1; // todas menos a sobrevivente final (que será ELIM)
+  const btmCount = totalLosers; // pra rotular BTM dinamicamente
+  let roundN = 1;
+  while(pool.length > 2){
+    const next = [];
+    const duels = [];
+    for(let i=0;i<pool.length;i+=2){
+      const a = pool[i], b = pool[i+1];
+      if(!b){ next.push(a); continue; }
+      const song = pickSong();
+      const winA = a.score + Math.random()*2 >= b.score + Math.random()*2;
+      const w = winA?a:b, l = winA?b:a;
+      next.push(w);
+      l.track.push({ status:"BTM2", mini:false, flopLala:true, faceOpp:w.name, btmCount });
+      duels.push({a:a.name,b:b.name,winner:w.name,loser:l.name,song});
+    }
+    ep.flopLalaRounds.push({label:`Round ${roundN}`, duels});
+    pool = next; roundN++;
+  }
+  if(pool.length === 2){
+    const [a,b] = pool;
+    const song = pickSong();
+    const winA = a.score + Math.random()*2 >= b.score + Math.random()*2;
+    const w = winA?a:b, l = winA?b:a;
+    w.track.push({ status:"BTM2", mini:false, flopLala:true, faceOpp:l.name, btmCount });
+    l.track.push({ status:"ELIM", mini:false, flopLala:true, faceOpp:w.name });
+    l.out = true; l.outEp = S.epCount; l.rank = S.active.length;
+    ep.flopLalaRounds.push({label:`Final`, duels:[{a:a.name,b:b.name,winner:w.name,loser:l.name,song}]});
+  }
+  S.flopWinnerName = null;
+}
+
+// BOTTOM 6 — 6 piores dublam juntas, 1 elim. Restantes podem ter WIN/HIGH normais.
+function runBottom6(parts){
+  const S = SIM;
+  parts.forEach(q => q.score = computeScore(q, "Lipsync"));
+  const ranked = [...parts].sort((a,b)=>b.score-a.score);
+  const top = ranked.slice(0, ranked.length-6);
+  const btm6 = ranked.slice(ranked.length-6);
+  // Top: 1 WIN + 1-2 HIGH + resto SAFE
+  top.forEach((q,i)=>{
+    let st = "SAFE";
+    if(i===0){ st="WIN"; q.wins++; }
+    else if(i<3) st="HIGH";
+    q.track.push({ status: st, mini:false });
+  });
+  // Btm6: pior elim, restantes BTM2
+  const btmCount = btm6.length - 1; // 5 queens no bottom além da elim
+  btm6.forEach((q,i)=>{
+    const fromBottom = btm6.length - 1 - i;
+    let st = "BTM2";
+    if(fromBottom === 0){
+      st = "ELIM"; q.out = true; q.outEp = S.epCount; q.rank = S.active.length;
+      q.track.push({ status: st, mini:false, btm6:true });
+    } else {
+      q.track.push({ status: st, mini:false, btm6:true, btmCount });
+    }
+  });
+  S.eps[S.eps.length-1].btm6 = true;
+}
+
+// SEM WIN/HIGH — todas SAFE pra cima, mantém eliminação normal embaixo
+function runNoWinHigh(parts){
+  const S = SIM;
+  parts.forEach(q => q.score = computeScore(q, S.eps[S.eps.length-1].name));
+  const ranked = [...parts].sort((a,b)=>b.score-a.score);
+  const last = ranked.length - 1;
+  ranked.forEach((q,i)=>{
+    let st = "SAFE";
+    if(i === last){ st = "ELIM"; q.out = true; q.outEp = S.epCount; q.rank = S.active.length; }
+    else if(i === last-1) st = "BTM2";
+    else if(i === last-2 && ranked.length >= 5) st = "LOW";
+    q.track.push({ status: st, mini:false, noWin:true });
+  });
+  S.eps[S.eps.length-1].noWin = true;
+}
+
+
 function runFaceOff(parts){
+  // Pares duelam. Sempre metade vence, metade perde.
+  // Vencedoras: 1 WIN + resto HIGH.
+  // Perdedoras: SAFE / LOW / BTM2 (e a pior é eliminada). Layout estilo: ~40% SAFE, 1 LOW, ~40% BTM2.
+  const S = SIM;
   const shuffled = [...parts].sort(()=>Math.random()-0.5);
   shuffled.forEach(q => q.score = computeScore(q, "Face-Off"));
-  const winners=[], losers=[];
+  const winners=[], losers=[], duels=[];
   for(let i=0;i<shuffled.length;i+=2){
     const a=shuffled[i], b=shuffled[i+1];
     if(!b){ winners.push(a); continue; }
-    if(a.score>=b.score){ winners.push(a); losers.push(b); }
-    else { winners.push(b); losers.push(a); }
+    const winA = a.score>=b.score;
+    const w = winA ? a : b, l = winA ? b : a;
+    winners.push(w); losers.push(l);
+    duels.push({a:a.name, b:b.name, winner:w.name, loser:l.name});
+    a.__faceOpp = b.name; b.__faceOpp = a.name;
+  }
+  if(S && S.eps && S.eps.length){
+    S.eps[S.eps.length-1].faceOffDuels = duels;
   }
   winners.sort((a,b)=>b.score-a.score);
-  losers.sort((a,b)=>b.score-a.score);
+  losers.sort((a,b)=>b.score-a.score); // melhor → pior
+
+  // Possível double-win aleatório (~7%)
+  const doubleWin = winners.length >= 2 && Math.random() < 0.07;
 
   winners.forEach((q,i)=>{
-    if(i===0){ q.wins++; q.track.push({status:"WIN", mini:false}); }
-    else if(i===1){ q.wins++; q.track.push({status:"TOP2", mini:false}); }
-    else q.track.push({status:"HIGH", mini:false});
-  });
-  const n = losers.length;
-  losers.forEach((q,i)=>{
     let st;
-    if(i < Math.floor(n/3)) st = "SAFE";
-    else if(i < Math.floor(2*n/3)) st = "LOW";
-    else st = "BTM2";
-    q.track.push({status:st, mini:false});
+    if(i===0){ q.wins++; st="WIN"; }
+    else if(i===1 && doubleWin){ q.wins++; st="WIN"; }
+    else st="HIGH";
+    q.track.push({status:st, mini:false, faceOpp:q.__faceOpp});
+    delete q.__faceOpp;
   });
+
+  // Distribui losers: bottom2 = 2 piores, low = 1 ou 0, resto SAFE
+  const n = losers.length;
+  // bottom 2 (ou bottom 1 se n<2)
+  const btmCount = n >= 2 ? 2 : n;
+  const lowCount = n >= 4 ? 1 : 0;
+  losers.forEach((q,i)=>{
+    const fromBottom = n - 1 - i; // 0 = pior
+    let st;
+    if(fromBottom < btmCount) st = "BTM2";
+    else if(fromBottom < btmCount + lowCount) st = "LOW";
+    else st = "SAFE";
+    q.track.push({status:st, mini:false, faceOpp:q.__faceOpp});
+    delete q.__faceOpp;
+  });
+
+  // Eliminação: pior dos BTM2 é eliminada
+  const worst = losers[losers.length-1];
+  if(worst){
+    worst.track[worst.track.length-1].status = "ELIM";
+    worst.out = true; worst.outEp = S.epCount; worst.rank = S.active.length;
+  }
 }
+
+// LSFTF: Top 4 → 3. 2 duelos 1v1; vencedoras avançam (ADV verde).
+// Perdedoras dublam de novo: 1 avança (ADV), 1 elim.
+function runLSFTF(parts){
+  const S = SIM;
+  const ep = S.eps[S.eps.length-1];
+  ep.lsftfRounds = [];
+  const sh = [...parts].sort(()=>Math.random()-0.5);
+  sh.forEach(q => q.score = lipsyncScore(q));
+  // Round 1: dois duelos
+  const r1Duels = [], r1Winners=[], r1Losers=[];
+  for(let i=0;i<sh.length;i+=2){
+    const a=sh[i], b=sh[i+1];
+    const song = pickSong();
+    const winA = a.score >= b.score;
+    const w = winA?a:b, l = winA?b:a;
+    r1Winners.push(w); r1Losers.push(l);
+    r1Duels.push({a:a.name,b:b.name,winner:w.name,loser:l.name,song});
+  }
+  ep.lsftfRounds.push({label:"Round 1 (Top 4 — 2 duelos)", duels:r1Duels});
+  r1Winners.forEach(q => q.track.push({status:"ADV", mini:false, lsftf:true}));
+  // Round 2: perdedoras dublam de novo
+  r1Losers.forEach(q => q.score = lipsyncScore(q));
+  const song2 = pickSong();
+  const winA2 = r1Losers[0].score >= r1Losers[1].score;
+  const adv2 = winA2 ? r1Losers[0] : r1Losers[1];
+  const elim2 = winA2 ? r1Losers[1] : r1Losers[0];
+  ep.lsftfRounds.push({label:"Round 2 (Bottom — 1 elim)", duels:[{a:r1Losers[0].name,b:r1Losers[1].name,winner:adv2.name,loser:elim2.name,song:song2}]});
+  adv2.track.push({status:"ADV", mini:false, lsftf:true});
+  elim2.track.push({status:"ELIM", mini:false, lsftf:true});
+  elim2.out = true; elim2.outEp = S.epCount; elim2.rank = S.active.length;
+}
+
 
 function placementText(p){
   if(p===1) return "1st"; if(p===2) return "2nd"; if(p===3) return "3rd"; return p+"th";
@@ -1168,7 +1618,9 @@ function renderTable(){
   sections.forEach(sec => {
     if(sec.label) h += `<tr class="bracket-header ${sec.cls}"><td colspan="${eps.length + (isBracket ? 5 : 4)}">${sec.label}</td></tr>`;
     sec.rows.forEach(q => {
-      const place = placements.get(q) || "-";
+      let place = placements.get(q) || "-";
+      // Double crown: ambas com rank 0 viram 1st
+      if(SIM.finished && q.rank === 0) place = 1;
       const pp = getPerso(q.name);
       let rankCell = place === "-" ? "-" : placementText(place);
       if(isBracket && q.bracketEliminated && !q.returned) rankCell = `ELIM<span class='rank-sub'>${q.points ?? 0} pts</span>`;
@@ -1211,6 +1663,8 @@ function renderTable(){
                 d.status === "BTM_BADUNK" ? "BTM ★" :
                 d.status === "BTM_BADUNK_PINK" ? "BTM" :
                 d.status === "DSHANTAY" ? "BTM" :
+                d.status === "IMMUNE" ? "IMMUNE" :
+                d.status === "BTM2" ? ("BTM" + (d.btmCount && d.btmCount > 2 ? d.btmCount : 2)) :
                 d.status;
         }
         let mini = d.mini ? `<span class="mini-label">Mini Chall. Winner</span>` : "";
@@ -1219,6 +1673,10 @@ function renderTable(){
         if(d.receivedFrom?.length) mini += `<span class="mini-label">Recebeu: ${d.receivedFrom.join(', ')}</span>`;
         if(d.wildcardReturn) mini += `<span class="mini-label">Wildcard</span>`;
         if(d.beaver) mini += `<span class="mini-label">🦫 BEAVER</span>`;
+        if(d.faceOpp) mini += `<span class="mini-label">vs ${d.faceOpp}</span>`;
+        if(d.badunk) mini += `<span class="mini-label">🎰 Badunk Save</span>`;
+        if(d.lsftf && cellStatus === "ADV") mini += `<span class="mini-label">LSFTF Top 3</span>`;
+        if(d.doubleCrown && cellStatus === "WINNER") mini += `<span class="mini-label">👑 Double Crown</span>`;
         // Apply red shades ONLY to bracket-final lalaparuza elim cells
         let cellExtra = "";
         if(d.bracketLala && d.lalaRound && cellStatus === "ELIM"){
@@ -1276,8 +1734,22 @@ function renderSongsPanel(){
   if(!SIM) return "";
   const items = [];
   SIM.eps.forEach((ep, idx) => {
-    if(ep.lalaRounds && ep.lalaRounds.length){
-      // handled by lalaparuza summary instead
+    if(ep.lalaRounds && ep.lalaRounds.length) return;
+    if(ep.lsftfRounds && ep.lsftfRounds.length){
+      ep.lsftfRounds.forEach(r => r.duels.forEach(d => {
+        items.push(`<li><span class="ep-tag" style="background:#e91e63">Ep.${ep.num} · LSFTF</span><b>${d.a}</b> vs <b>${d.b}</b> — vence <b>${d.winner}</b> — "<i>${d.song}</i>"</li>`);
+      }));
+      return;
+    }
+    if(ep.lsftc && ep.lsftc.length){
+      ep.lsftc.forEach(r => r.duels.forEach(d => {
+        items.push(`<li><span class="ep-tag" style="background:#ffd700;color:#000">FINAL · LSFTC</span><b>${d.a}</b> vs <b>${d.b}</b> — vence <b>${d.winner}</b> — "<i>${d.song}</i>"</li>`);
+      }));
+      return;
+    }
+    if(ep.t5cut){
+      const t = ep.t5cut;
+      items.push(`<li><span class="ep-tag" style="background:#ffd700;color:#000">FINAL · TOP5</span><b>${t.top2[0]}</b> vs <b>${t.top2[1]}</b> — vence <b>${t.winner}</b> — "<i>${t.song}</i>"</li>`);
       return;
     }
     if(ep.cuntLipsync){
@@ -1285,32 +1757,45 @@ function renderSongsPanel(){
       items.push(`<li><span class="ep-tag">Ep.${ep.num} · CUNT</span><b>${ls.a}</b> vs <b>${ls.b}</b> — "<i>${ls.song}</i>"</li>`);
       return;
     }
-    if(!ep.song) return;
-    if(ep.legacyTop2 && ep.legacyTop2.length >= 2){
-      items.push(`<li><span class="ep-tag">Ep.${ep.num} · TOP2</span><b>${ep.legacyTop2.join("</b> vs <b>")}</b> — "<i>${ep.song}</i>"</li>`);
+    // Bracket phase 1: TOP2 lipsync (sem eliminação)
+    if(ep.bracketTop2 && ep.song){
+      items.push(`<li><span class="ep-tag" style="background:#9b59d0">${ep.label || ('Ep.'+ep.num)} · BRACKET TOP2</span><b>${ep.bracketTop2.win}</b> vs <b>${ep.bracketTop2.top2}</b> — "<i>${ep.song}</i>"</li>`);
       return;
     }
-    // find lipsyncers (queens whose cell at this ep is BTM2/ELIM/DSHANTAY/BTM_BADUNK*)
+    if(!ep.song) return;
+    if(ep.legacyTop2 && ep.legacyTop2.length >= 2){
+      const lbl = ep.legacyTop2.length >= 3 ? "TOP3 LSFTW" : "TOP2";
+      items.push(`<li><span class="ep-tag">Ep.${ep.num} · ${lbl}</span><b>${ep.legacyTop2.join("</b> vs <b>")}</b> — "<i>${ep.song}</i>"</li>`);
+      return;
+    }
     const ls = SIM.cast.filter(q => {
       const c = q.track[idx]; if(!c) return false;
-      return ["BTM2","ELIM","DSHANTAY","BTM_BADUNK","BTM_BADUNK_PINK"].includes(c.status) && !c.bracketOutcome && !c.lalaRound;
+      return ["BTM2","ELIM","DSHANTAY","BTM_BADUNK","BTM_BADUNK_PINK"].includes(c.status) && !c.bracketOutcome && !c.lalaRound && !c.lsftf;
     });
     if(ls.length < 2) return;
     const names = ls.map(q=>q.name);
     items.push(`<li><span class="ep-tag">Ep.${ep.num}</span><b>${names.join("</b> vs <b>")}</b> — "<i>${ep.song}</i>"</li>`);
   });
+  // Face-Off duels resumo
+  SIM.eps.forEach(ep => {
+    if(!ep.faceOffDuels) return;
+    ep.faceOffDuels.forEach(d => {
+      items.push(`<li><span class="ep-tag" style="background:#ff8c1a">Ep.${ep.num} · FACE-OFF</span><b>${d.a}</b> vs <b>${d.b}</b> — vence <b>${d.winner}</b></li>`);
+    });
+  });
   if(!items.length) return "";
-  return `<div class="songs-panel"><h3>🎤 Lipsync Songs — Resumo da Temporada</h3><ul>${items.join("")}</ul></div>`;
+  return `<div class="songs-panel"><h3>🎤 Lipsync Songs & Duelos — Resumo</h3><ul>${items.join("")}</ul></div>`;
 }
 
 function renderLalaparuzaSummary(){
   if(!SIM) return "";
-  const lalaEps = SIM.eps.filter(e => e.lalaRounds && e.lalaRounds.length);
-  if(!lalaEps.length) return "";
-  let h = `<div class="bracket-panel" style="background:#fff0f5;border-color:#ff4d9a"><h3>🎤 Lalaparuza — Rodadas detalhadas</h3>`;
-  lalaEps.forEach(ep => {
+  const eps = SIM.eps.filter(e => (e.lalaRounds && e.lalaRounds.length) || (e.lsftfRounds && e.lsftfRounds.length) || (e.lsftc && e.lsftc.length));
+  if(!eps.length) return "";
+  let h = `<div class="bracket-panel" style="background:#fff0f5;border-color:#ff4d9a"><h3>🎤 Dublagens Especiais — Rodadas detalhadas</h3>`;
+  eps.forEach(ep => {
     h += `<div class="bracket-log-card" style="border-left-color:#ff4d9a"><b>${ep.label || ('Ep.'+ep.num)} — ${ep.name}</b>`;
-    ep.lalaRounds.forEach(r => {
+    const rounds = (ep.lalaRounds || ep.lsftfRounds || ep.lsftc || []);
+    rounds.forEach(r => {
       h += `<div style="margin-top:6px"><b>${r.label}</b><ul style="margin:4px 0 0 18px;padding:0">`;
       r.duels.forEach(d => {
         h += `<li><b>${d.winner}</b> venceu <span style="text-decoration:line-through;opacity:.7">${d.loser}</span> — 🎤 <i>${d.song}</i></li>`;
@@ -1386,7 +1871,7 @@ function onFormatChange(){
   if(as11RunHint) as11RunHint.style.display = isBr ? "block" : "none";
   const twistSection = document.getElementById("twistSection");
   if(twistSection) twistSection.style.display = isBr ? "none" : "block";
-  ["cGG","cActing","cQuit","cDouble","cDoubleSashay","cNoElim","cReturn","cGolden","cBadunk","cLala","cPremNoElim","cCunt"].forEach(id=>{
+  ["cGG","cActing","cQuit","cDouble","cDoubleSashay","cNoElim","cReturn","cGolden","cLala","cPremNoElim","cCunt","cLSFTF","cRupaul"].forEach(id=>{
     const el = document.getElementById(id);
     if(el){ el.disabled = isBr; if(isBr) el.checked = false; }
   });
@@ -1601,6 +2086,7 @@ function bracketStep(){
   const S = SIM;
   if(S.finished) return;
   if(S.phase === 1) runBracketPhase1Episode();
+  else if(S.phase === "wildcard_pending"){ doWildcard(); S.phase = 2; }
   else if(S.phase === 2) runBracketSnatchOrTalent(S.epCount===10 ? "Snatch Game" : "Talent Show");
   else if(S.phase === 3) runBracketLalaparuzaFinal();
 }
@@ -1626,7 +2112,8 @@ function ensureCell(q, idx){
 
 function chooseDonationTarget(S, donor, bracketActive, win, top2, safes){
   const allies = S.allies(donor.name).map(n=>S.byName[n]).filter(q=>!q.out && q.bracket===donor.bracket && q!==donor);
-  if(allies.length && Math.random() < 0.78){
+  // 80% chance: doa para um aliado (se houver aliança configurada)
+  if(allies.length && Math.random() < 0.80){
     return {target: allies.sort((a,b)=> (b.points+b.score) - (a.points+a.score))[0], reason:"aliança"};
   }
   const reciprocal = bracketActive.filter(q => q!==donor && q.donated?.some(d => d.to === donor.name));
@@ -1649,7 +2136,8 @@ function runBracketPhase1Episode(){
   const chalObj = S.chalQueue[bi][S.epInBracket-1];
   const chal = chalObj.name;
   const epLabel = `B${bi+1}-${S.epInBracket}`;
-  S.eps.push({ num: S.epCount, name: `${chalObj.category}: ${chal}`, label: epLabel });
+  const songForEp = pickSong();
+  S.eps.push({ num: S.epCount, name: `${chalObj.category}: ${chal}`, label: epLabel, song: songForEp });
 
   bracketActive.forEach(q => { q.score = computeScore(q, chal); });
   bracketActive.forEach(q => {
@@ -1667,6 +2155,7 @@ function runBracketPhase1Episode(){
   top2.points += 2;
   win.track.push({status:"WIN", mini:false});
   top2.track.push({status:"TOP2", mini:false});
+  S.eps[S.eps.length-1].bracketTop2 = {win: win.name, top2: top2.name};
   const safes = bracketActive.slice(2);
   safes.forEach(q => q.track.push({status:"SAFE", mini:false}));
 
@@ -1702,8 +2191,8 @@ function runBracketPhase1Episode(){
     S.epInBracket = 1;
     if(S.currentBracket > 2){
       S.allBracketsCut = true;
-      doWildcard();
-      S.phase = 2;
+      // Não rodar wildcard automaticamente — vira um próximo passo separado
+      S.phase = "wildcard_pending";
     }
   }
 }
