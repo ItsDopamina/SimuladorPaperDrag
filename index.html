@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Dopaminas Draw Race Simulador v20</title>
+<!-- saved from url=(0085)https://id-preview-%2D3a83eabc-3632-40ba-ac0f-a2dfe1900640.lovable.app/dopaminas.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Dopaminas Draw Race Simulador v26</title>
 <style>
 :root{
   --win-normal:#4169e1;--top2:#00bfff;--win-dark:#000080;--high-team:#7fffd4;
@@ -66,7 +66,7 @@ td.rank-cell{width:62px;background:#f0f0f0;font-size:11px}
 td.photo-cell{width:50px;background:#f7f7f7;padding:4px}
 td.name-cell{text-align:left;padding-left:10px;width:170px;background:#f7f7f7}
 .photo-cell .avatar{margin:0 auto}
-.avatar{width:34px;height:34px;border-radius:50%;background:#ddd center/cover no-repeat;flex-shrink:0;border:2px solid #111;font-size:9px;display:flex;align-items:center;justify-content:center;color:#666;font-weight:700}
+.avatar{width:34px;height:34px;border-radius:4px;background:#ddd center/cover no-repeat;flex-shrink:0;border:2px solid #111;font-size:9px;display:flex;align-items:center;justify-content:center;color:#666;font-weight:700}
 .tier-tag{display:inline-block;font-size:8px;padding:1px 5px;border-radius:3px;font-weight:700;margin-left:4px;vertical-align:middle}
 .tier-Splus{background:#ff2d87;color:#fff}.tier-S{background:#ff6b6b;color:#fff}.tier-A{background:#ffa500;color:#fff}
 .tier-B{background:#4caf50;color:#fff}.tier-C{background:#2196f3;color:#fff}.tier-D{background:#777;color:#fff}
@@ -137,6 +137,11 @@ td.stat-cell{width:95px}
 .LOST_R4{background:#8b0000;color:#fff}
 .LALA_WIN{background:#9b59d0;color:#fff}
 .AS7_FINAL{background:#ffd700;color:#000}
+.OUT_RET{background:#6a1b9a;color:#fff}
+.TAS_WIN{background:var(--win-normal);color:#fff}
+.TAS_LOST{background:var(--top2);color:#fff}
+.TAS_BOTTOM_AUTO{background:#b35a00;color:#fff}
+.RET_IN{background:var(--win-dark);color:#fff}
 .pts-sub{display:block;font-size:8px;font-weight:600;margin-top:1px;opacity:.95}
 .as7-panel{margin-top:20px;background:#f0f4ff;border:2px solid #3949ab;border-radius:10px;padding:14px}
 .as7-panel h3{margin:0 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:1px}
@@ -172,18 +177,18 @@ td.stat-cell{width:95px}
 .tag-pick.on-wk{background:#e53935;color:#fff;border-color:#e53935}
 .tag-help{font-size:9px;color:var(--muted);margin-top:2px}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="./Dopaminas Draw Race Simulador v261_files/html2canvas.min.js.transferir"></script>
 </head>
 <body>
 <div class="container">
   <h1>DOPAMINAS DRAW RACE</h1>
-  <div class="subtitle">Simulador v21 · Beaver · Lalaparuza · Bracket · CUNT · Talent Show · All Winners</div>
+  <div class="subtitle">Simulador v26 · Alianças · PPE Coroação · Beaver · Lalaparuza · Bracket · CUNT · Talent Show · All Winners · Lipsync Assassin</div>
 
   <div class="flex-layout">
     <div class="box" style="max-width:340px">
       <h3>Banco de Queens</h3>
       <input type="text" id="queenSearch" placeholder="🔎 Pesquisar queen (todas as temporadas)" oninput="renderQueens()" style="width:100%;margin-bottom:8px;padding:6px;border:1px solid var(--line);border-radius:6px">
-      <select id="seasonSelector" style="margin-bottom:8px;width:100%" onchange="renderQueens()"></select>
+      <select id="seasonSelector" style="margin-bottom:8px;width:100%" onchange="renderQueens()"><option value="Croqui 5">Croqui 5 (9)</option><option value="Dopas 1">Dopas 1 (8)</option><option value="Gag 5">Gag 5 (13)</option><option value="Dopas 2">Dopas 2 (10)</option><option value="Dopas 3">Dopas 3 (12)</option><option value="Geekay 5">Geekay 5 (12)</option><option value="Ockuuur 5">Ockuuur 5 (6)</option><option value="Ockuuur AS2">Ockuuur AS2 (6)</option><option value="Croqui 6">Croqui 6 (10)</option><option value="Bugirls 5">Bugirls 5 (12)</option><option value="Aleatórias">Aleatórias (86)</option><option value="CUNT">CUNT ★ (12)</option></select>
       <button class="btn-mini" style="width:100%;margin-bottom:6px" onclick="selectEntireSeason()">Selecionar temporada inteira</button>
       <div style="display:flex;gap:4px;margin-bottom:6px">
         <input type="text" id="newQueenName" placeholder="Nome da nova drag" style="flex:1;padding:6px;border:1px solid var(--line);border-radius:6px;font-size:12px">
@@ -191,7 +196,7 @@ td.stat-cell{width:95px}
       </div>
       <button class="btn-mini" style="width:100%;margin-bottom:6px" onclick="saveAsNewSeason()">💾 Salvar seleção como nova temporada</button>
       <button class="btn-mini" style="width:100%;margin-bottom:10px;background:#fee" onclick="deleteCustomSeason()">🗑️ Excluir temporada custom</button>
-      <div id="dbList" style="height:340px;overflow-y:auto;border:1px solid var(--line);padding:6px;border-radius:6px;background:#fafafa"></div>
+      <div id="dbList" style="height:340px;overflow-y:auto;border:1px solid var(--line);padding:6px;border-radius:6px;background:#fafafa"><div class="queen-pill " onclick="toggleQueen(&#39;Alice Hitobashira&#39;)">Alice Hitobashira</div><div class="queen-pill " onclick="toggleQueen(&#39;Ayla&#39;)">Ayla</div><div class="queen-pill " onclick="toggleQueen(&#39;Cristina e as Joias&#39;)">Cristina e as Joias</div><div class="queen-pill " onclick="toggleQueen(&#39;Dopamina&#39;)">Dopamina</div><div class="queen-pill " onclick="toggleQueen(&#39;Lilach&#39;)">Lilach</div><div class="queen-pill " onclick="toggleQueen(&#39;Lovy&#39;)">Lovy</div><div class="queen-pill " onclick="toggleQueen(&#39;Mama V&#39;)">Mama V</div><div class="queen-pill " onclick="toggleQueen(&#39;Silly Cone&#39;)">Silly Cone</div><div class="queen-pill " onclick="toggleQueen(&#39;Uraez&#39;)">Uraez</div></div>
     </div>
 
     <div class="box" style="flex:1.8">
@@ -213,7 +218,7 @@ td.stat-cell{width:95px}
         </label>
         <label>Formato Final
           <select id="fSize" onchange="updateUI()">
-            <option value="random" selected>🎲 Aleatório (TOP 2-5)</option>
+            <option value="random" selected="">🎲 Aleatório (TOP 2-5)</option>
             <option value="2">TOP 2</option>
             <option value="3">TOP 3</option>
             <option value="4">TOP 4</option>
@@ -225,33 +230,40 @@ td.stat-cell{width:95px}
             <option value="std">Normal/Regular</option>
             <option value="legacy">Legacy (Top 2 Dublam)</option>
             <option value="beaver">Beaver (Winner salva 1 do BTM)</option>
+            <option value="lsa">🎤 Lipsync Assassin (1 winner · LSA twist)</option>
             <option value="bracket">AS11 / Bracket (18 queens · 12 eps · estratégico)</option>
-            <option value="allwinners">AS7 / All Winners (sem eliminação · pontos & blocks)</option>
+            <option value="allwinners">AS7 / All Winners (sem eliminação · pontos &amp; blocks)</option>
           </select>
         </label>
         <label>Desafio da Premiere
           <select id="premiereChal">
             <option value="random">Aleatório</option>
+          <option value="Talent Show">Talent Show</option><option value="Face-Off">Face-Off</option><option value="Cover">Cover</option><option value="Branding">Branding</option><option value="Advert">Advert</option><option value="Makeover">Makeover</option><option value="Design">Design</option><option value="Acting">Acting</option><option value="Girl Group">Girl Group</option><option value="Duo Challenge">Duo Challenge</option><option value="Photoshoot">Photoshoot</option><option value="Character Design">Character Design</option><option value="Snatch Game">Snatch Game</option><option value="Ball">Ball</option><option value="Roast">Roast</option><option value="Remix">Remix</option><option value="Rusical">Rusical</option></select>
+        </label>
+        <label id="manualElimLabel" style="display:none">🎯 Escolha manual da eliminada (Beaver/Legacy/LSA)
+          <select id="manualElim">
+            <option value="off">Automático (simulador decide)</option>
+            <option value="on">Eu escolho na hora (passo a passo)</option>
           </select>
         </label>
 
         <div class="section">
           <b>Fila de desafios personalizada</b>
-          <div id="chalPool" style="border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px"></div>
+          <div id="chalPool" style="border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px"><div class="chal-pill" onclick="addToQueue(&#39;Talent Show&#39;)">Talent Show</div><div class="chal-pill" onclick="addToQueue(&#39;Face-Off&#39;)">Face-Off</div><div class="chal-pill" onclick="addToQueue(&#39;Cover&#39;)">Cover</div><div class="chal-pill" onclick="addToQueue(&#39;Branding&#39;)">Branding</div><div class="chal-pill" onclick="addToQueue(&#39;Advert&#39;)">Advert</div><div class="chal-pill" onclick="addToQueue(&#39;Makeover&#39;)">Makeover</div><div class="chal-pill" onclick="addToQueue(&#39;Design&#39;)">Design</div><div class="chal-pill" onclick="addToQueue(&#39;Acting&#39;)">Acting</div><div class="chal-pill" onclick="addToQueue(&#39;Girl Group&#39;)">Girl Group</div><div class="chal-pill" onclick="addToQueue(&#39;Duo Challenge&#39;)">Duo Challenge</div><div class="chal-pill" onclick="addToQueue(&#39;Photoshoot&#39;)">Photoshoot</div><div class="chal-pill" onclick="addToQueue(&#39;Character Design&#39;)">Character Design</div><div class="chal-pill" onclick="addToQueue(&#39;Snatch Game&#39;)">Snatch Game</div><div class="chal-pill" onclick="addToQueue(&#39;Ball&#39;)">Ball</div><div class="chal-pill" onclick="addToQueue(&#39;Roast&#39;)">Roast</div><div class="chal-pill" onclick="addToQueue(&#39;Remix&#39;)">Remix</div><div class="chal-pill" onclick="addToQueue(&#39;Rusical&#39;)">Rusical</div></div>
           <div id="chalQueueDisplay" style="min-height:24px;font-size:10px"></div>
         </div>
 
         <div class="section" id="twistSection">
           <b>Twists da temporada</b>
           <div style="display:flex;flex-wrap:wrap;gap:14px;font-weight:500">
-            <label><input type="checkbox" id="cGG" checked> Girl Group / Duo (Win Grupal)</label>
-            <label><input type="checkbox" id="cActing" checked> Acting (High Team)</label>
-            <label><input type="checkbox" id="cQuit" checked> Desistências (QUIT)</label>
-            <label><input type="checkbox" id="cDisq" checked> Desqualificação (DISQ — expulsa)</label>
+            <label><input type="checkbox" id="cGG" checked=""> Girl Group / Duo (Win Grupal)</label>
+            <label><input type="checkbox" id="cActing" checked=""> Acting (High Team)</label>
+            <label><input type="checkbox" id="cQuit" checked=""> Desistências (QUIT)</label>
+            <label><input type="checkbox" id="cDisq" checked=""> Desqualificação (DISQ — expulsa)</label>
             <label><input type="checkbox" id="cDouble"> Double Shantay</label>
             <label><input type="checkbox" id="cDoubleSashay"> Double Sashay</label>
             <label><input type="checkbox" id="cNoElim"> Episódio sem eliminação</label>
-            <label><input type="checkbox" id="cReturn" onchange="document.getElementById('returnBox').style.display=this.checked?'block':'none'"> Retorno de queen</label>
+            <label><input type="checkbox" id="cReturn" onchange="document.getElementById(&#39;returnBox&#39;).style.display=this.checked?&#39;block&#39;:&#39;none&#39;"> Retorno de queen</label>
             <label><input type="checkbox" id="cGolden"> 🍫 Golden Bar (retorno imediato)</label>
             <label><input type="checkbox" id="cLala"> 🎤 Lalaparuza Smackdown (forçada no Top 8)</label>
             <label><input type="checkbox" id="cCunt"> 👑 CUNT (Top 5 — 3 desafios + 1 lipsync)</label>
@@ -261,14 +273,14 @@ td.stat-cell{width:95px}
             <label><input type="checkbox" id="cNoWin"> 🫥 Episódio sem WIN/HIGH (todas SAFE pra cima)</label>
             <label><input type="checkbox" id="cBtm6"> 🔻 Bottom 6 (6 dublam, 1 elim)</label>
             <label><input type="checkbox" id="cFlop"> 💥 Flop Total (todas BTM → Lalaparuza Flop)</label>
-            <label><input type="checkbox" id="cTop3LSFTW" checked> 🎬 TOP3 LSFTW (20% em ep sem eliminação / Premiere TOP2 / Split)</label>
-            <label><input type="checkbox" id="cTalent" onchange="document.getElementById('talentBox').style.display=this.checked?'block':'none'"> 🎤 Talent Show Rate-A-Queen (2 eps + LSFYL)</label>
+            <label><input type="checkbox" id="cTop3LSFTW" checked=""> 🎬 TOP3 LSFTW (20% em ep sem eliminação / Premiere TOP2 / Split)</label>
+            <label><input type="checkbox" id="cTalent" onchange="document.getElementById(&#39;talentBox&#39;).style.display=this.checked?&#39;block&#39;:&#39;none&#39;"> 🎤 Talent Show Rate-A-Queen (2 eps + LSFYL)</label>
           </div>
           <div id="talentBox" style="display:none;margin-top:10px;padding:8px;background:#fff;border:1px dashed #6a1b9a;border-radius:6px">
             <b style="font-size:11px;color:#6a1b9a">🎤 Talent Show — quando rola</b>
             <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;font-size:11px">
               <label style="flex:1;min-width:160px">Episódio inicial
-                <select id="talentMode" onchange="document.getElementById('talentEpBox').style.display=this.value==='ep'?'block':'none'">
+                <select id="talentMode" onchange="document.getElementById(&#39;talentEpBox&#39;).style.display=this.value===&#39;ep&#39;?&#39;block&#39;:&#39;none&#39;">
                   <option value="random">Aleatório (meio da temporada)</option>
                   <option value="ep">Eu escolho</option>
                 </select>
@@ -285,7 +297,7 @@ td.stat-cell{width:95px}
             <b style="font-size:11px">🎰 Badunktank</b>
             <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;align-items:center;font-size:11px">
               <label style="flex:1;min-width:160px">Quando acontece
-                <select id="badunkMode" onchange="document.getElementById('badunkEpBox').style.display=this.value==='ep'?'block':'none'">
+                <select id="badunkMode" onchange="document.getElementById(&#39;badunkEpBox&#39;).style.display=this.value===&#39;ep&#39;?&#39;block&#39;:&#39;none&#39;">
                   <option value="off">Desativado</option>
                   <option value="random">Aleatório (até o limite)</option>
                   <option value="ep">Eu escolho o episódio</option>
@@ -293,7 +305,7 @@ td.stat-cell{width:95px}
               </label>
               <label style="flex:1;min-width:120px">Limite por temporada
                 <select id="badunkMax">
-                  <option value="1" selected>1 (padrão)</option>
+                  <option value="1" selected="">1 (padrão)</option>
                   <option value="2">2 (máximo)</option>
                 </select>
               </label>
@@ -308,7 +320,7 @@ td.stat-cell{width:95px}
           <div style="margin-top:10px;padding:8px;background:#fff;border:1px dashed #ccc;border-radius:6px">
             <b style="font-size:11px">🏆 Modo da Finale</b>
             <select id="finaleMode" style="margin-top:4px;font-size:11px">
-              <option value="random" selected>🎲 Aleatório (sem saber qual)</option>
+              <option value="random" selected="">🎲 Aleatório (sem saber qual)</option>
               <option value="score">Score-based (vence melhor PPE)</option>
               <option value="lsftc">Lipsync For The Crown (sempre dubla)</option>
             </select>
@@ -318,18 +330,52 @@ td.stat-cell{width:95px}
             <label style="font-weight:500">Episódio do retorno
               <select id="returnEp"><option value="auto">Automático (meio da temporada)</option></select>
             </label>
-            <label style="font-weight:500;margin-top:6px;display:block">Como escolher quem volta?
+            <label style="font-weight:500;margin-top:6px;display:block">Tipo do desafio de retorno
+              <select id="returnType">
+                <option value="random">Aleatório (sorteia uma das eliminadas)</option>
+                <option value="mini">Mini Challenge entre eliminadas (1 volta)</option>
+                <option value="gg_vs">Girl Group · Eliminadas vs Remanescentes (1 volta, 1 elim normal)</option>
+                <option value="pairs">Duplas (Eliminada + Remanescente — dupla vencedora traz de volta)</option>
+              </select>
+            </label>
+            <label style="font-weight:500;margin-top:6px;display:block">Como escolher quem volta? (apenas modo Aleatório)
               <select id="returnPick">
                 <option value="random">Aleatório (entre as eliminadas)</option>
                 <option value="prompt">Escolher na hora (entre as eliminadas)</option>
               </select>
             </label>
-            <div style="font-size:10px;color:var(--muted);margin-top:6px">Apenas queens já eliminadas no momento podem retornar. Ela compete normalmente nos episódios restantes.</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:6px">As que NÃO retornam recebem <b style="color:#6a1b9a">OUT</b> roxo na coluna do retorno (em ordem de eliminação).</div>
+          </div>
+          <div id="lsaBox" style="display:none;margin-top:10px;padding:8px;background:#fff;border:1px dashed #1a237e;border-radius:6px">
+            <b style="font-size:11px;color:#1a237e">🎤 Lipsync Assassin — Configurações</b>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;font-size:11px">
+              <label>Escolha da eliminada (quando TAS vence o LSA)
+                <select id="lsaPickMode">
+                  <option value="random">Aleatória (entre o bottom)</option>
+                  <option value="prompt">Eu escolho (passo a passo)</option>
+                </select>
+              </label>
+              <label>Tamanho da Final
+                <select id="lsaFinal">
+                  <option value="random" selected="">🎲 Aleatório (2-4)</option>
+                  <option value="2">TOP 2</option>
+                  <option value="3">TOP 3</option>
+                  <option value="4">TOP 4</option>
+                </select>
+              </label>
+              <label>BTM5+ no TOP6 em diante
+                <select id="lsaBtm5">
+                  <option value="off" selected="">Desativado (sempre BTM2)</option>
+                  <option value="on">Ativado (BTM5 no TOP6, BTM4 no TOP5, BTM3 no TOP4)</option>
+                </select>
+              </label>
+            </div>
+            <div style="font-size:10px;color:#666;margin-top:6px">A TOP All Stars (vencedora do LSFTW) enfrenta uma Lipsync Assassin convidada (ex-rugirl). Vence → escolhe quem do bottom elimina. Perde → o júri (resto do cast) vota a eliminada. Empate → poder volta pra winner. Bottom padrão é BTM2 durante toda a temporada; opcionalmente BTM5 no TOP6.</div>
           </div>
         </div>
 
         <div class="section" id="bracketBox" style="display:none">
-          <b>🏆 AS11 — Brackets & Alianças (18 queens · 12 episódios)</b>
+          <b>🏆 AS11 — Brackets &amp; Alianças (18 queens · 12 episódios)</b>
           <div style="font-size:11px;color:#444;margin-bottom:8px;line-height:1.5">
             Campo para escolher os <b>brackets e alianças do AS11</b>. Cast fixo de <b>18 queens</b> dividido em 3 brackets. Cada bracket joga 3 episódios sem eliminação (Comedy + Performance + Look). WIN=3pts, TOP2=2pts, SAFE=1pt para doar. Top 3 de cada bracket avançam (9). Wildcard retorna 1 (10). EP10=Snatch Game, EP11=Talent Show, EP12=Lalaparuza Final com 8 queens. <b>Twists desativados nesse formato.</b>
           </div>
@@ -357,15 +403,28 @@ td.stat-cell{width:95px}
       </div>
         </div>
 
+        <div class="section" id="allianceBox" style="display:none">
+          <b>💞 Alianças (Beaver · Legacy · LSA · All Winners)</b>
+          <div style="font-size:11px;color:#444;margin-bottom:8px;line-height:1.5">
+            Alianças mudam o jogo: no <b>Beaver</b> a winner salva uma aliada do BTM; no <b>Legacy</b> a TOP2 prefere deixar uma aliada fora do bottom; na <b>LSA</b> o júri NÃO vota em aliadas; no <b>All Winners</b> doações e blocks favorecem/atacam segundo as alianças.
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn-mini" onclick="randomizeGlobalAlliances()">🎲 Randomizar alianças</button>
+            <button class="btn-mini" onclick="clearGlobalAlliances()">✕ Limpar</button>
+            <button class="btn-mini" onclick="openAlliancesEditor()">⚙️ Editar manualmente</button>
+          </div>
+          <div id="allianceListDisplay" style="margin-top:8px;font-size:11px;color:#555"><i>Nenhuma aliança configurada.</i></div>
+        </div>
+
         <div class="section" id="allwinnersBox" style="display:none">
-          <b>👑 AS7 — All Winners (sem eliminação · pontos & blocks)</b>
+          <b>👑 AS7 — All Winners (sem eliminação · pontos &amp; blocks)</b>
           <div style="font-size:11px;color:#444;margin-bottom:8px;line-height:1.5">
             8-12 queens, sem eliminação. <b>10 episódios:</b> 2 TOP2 dublam pelo win (cada uma +1pt). Vencedora do lipsync ganha <b>+1 extra</b> e <b>bloqueia uma queen aleatória</b> (a bloqueada pode vencer o ep seguinte mas não pontua). Ep10: sem block. <b>Ep11 = Talent Show</b> — TOP2 ganham +3pts cada. Final: top 3-4 disputam Lipsync For The Crown. Não-finalistas dublam Lalaparuza pelo título de SDADHH.
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
             <label>Tamanho do cast
               <select id="as7CastSize">
-                <option value="auto" selected>Auto (usa selecionadas, padrão 8)</option>
+                <option value="auto" selected="">Auto (usa selecionadas, padrão 8)</option>
                 <option value="8">8 queens</option>
                 <option value="10">10 queens</option>
                 <option value="12">12 queens</option>
@@ -373,41 +432,41 @@ td.stat-cell{width:95px}
             </label>
             <label>Tamanho da Final
               <select id="as7FinalSize">
-                <option value="random" selected>🎲 Aleatório (3 ou 4)</option>
+                <option value="random" selected="">🎲 Aleatório (3 ou 4)</option>
                 <option value="3">TOP 3 (dublam juntas)</option>
                 <option value="4">TOP 4 (duelos)</option>
               </select>
             </label>
             <label>Double Diamond (ep11 cast vota e dobra pontos da queen)
               <select id="as7DoubleDiamond">
-                <option value="off" selected>Não</option>
+                <option value="off" selected="">Não</option>
                 <option value="on">Sim</option>
                 <option value="random">Aleatório (50%)</option>
               </select>
             </label>
             <label>Doação de TOP2 (eps onde TOP2 doa +1)
               <select id="as7DonationMode">
-                <option value="random" selected>Aleatório (1 ep)</option>
+                <option value="random" selected="">Aleatório (1 ep)</option>
                 <option value="2random">Aleatório (2 eps)</option>
                 <option value="off">Sem doação</option>
               </select>
             </label>
             <label>Mini-challenge bonus (ep onde mini vale +1)
               <select id="as7MiniBonus">
-                <option value="random" selected>Aleatório (1 ep)</option>
+                <option value="random" selected="">Aleatório (1 ep)</option>
                 <option value="off">Sem bônus</option>
               </select>
             </label>
             <label>Lalaparuza dos não-finalistas (SDADHH)
               <select id="as7Lala">
-                <option value="on" selected>Sim</option>
+                <option value="on" selected="">Sim</option>
                 <option value="off">Não</option>
               </select>
             </label>
           </div>
           <div style="margin-top:10px;font-size:11px">
             <b>Ordem dos desafios (eps 1–10) — clique para adicionar, clique no item para remover:</b>
-            <div id="aw7ChalPool" style="margin:6px 0;display:flex;flex-wrap:wrap;gap:4px"></div>
+            <div id="aw7ChalPool" style="margin:6px 0;display:flex;flex-wrap:wrap;gap:4px"><div class="chal-pill" onclick="addToAW7Queue(&#39;Talent Show&#39;)">Talent Show</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Face-Off&#39;)">Face-Off</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Cover&#39;)">Cover</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Branding&#39;)">Branding</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Advert&#39;)">Advert</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Makeover&#39;)">Makeover</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Design&#39;)">Design</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Acting&#39;)">Acting</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Girl Group&#39;)">Girl Group</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Duo Challenge&#39;)">Duo Challenge</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Photoshoot&#39;)">Photoshoot</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Character Design&#39;)">Character Design</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Snatch Game&#39;)">Snatch Game</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Ball&#39;)">Ball</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Roast&#39;)">Roast</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Remix&#39;)">Remix</div><div class="chal-pill" onclick="addToAW7Queue(&#39;Rusical&#39;)">Rusical</div></div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
               <div id="aw7QueueDisplay" style="flex:1;min-height:22px;font-size:10px;color:#555"></div>
               <button class="btn-mini" onclick="clearAW7Queue()" style="padding:2px 8px;font-size:10px">Limpar</button>
@@ -428,22 +487,38 @@ td.stat-cell{width:95px}
   </div>
 
   <div id="rupaulPanel" style="display:none"></div>
+  <div id="lsaPanel" style="display:none"></div>
+  <div id="manualElimPanel" style="display:none"></div>
   <div id="tableOutput"></div>
 
   <div id="historyBar" class="history-bar" style="display:none">
     <b>Histórico:</b>
     <button class="btn-mini" onclick="saveCurrentRun()">💾 Salvar esta temporada</button>
-    <button class="btn-mini" onclick="downloadTableImage('png')">🖼️ Baixar como PNG</button>
-    <button class="btn-mini" onclick="downloadTableImage('jpeg')">🖼️ Baixar como JPEG</button>
+    <button class="btn-mini" onclick="downloadTableImage(&#39;png&#39;)">🖼️ Baixar como PNG</button>
+    <button class="btn-mini" onclick="downloadTableImage(&#39;jpeg&#39;)">🖼️ Baixar como JPEG</button>
     <button class="btn-mini" onclick="clearHistory()">🗑 Limpar histórico</button>
-    <div id="historyList" style="margin-top:8px"></div>
+    <div id="historyList" style="margin-top:8px"><span style="color:#999">Nenhuma temporada salva ainda.</span></div>
+  </div>
+
+
+<!-- ALLIANCES EDITOR MODAL -->
+<div class="modal-bg" id="alliancesModal">
+  <div class="modal">
+    <h2>Editar Alianças</h2>
+    <div class="sub">Pares de queens — influenciam Beaver, Legacy, LSA e All Winners</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <button class="btn-mini" onclick="randomizeGlobalAlliances();renderAlliancesEditor()">🎲 Randomizar</button>
+      <button class="btn-mini" onclick="clearGlobalAlliances();renderAlliancesEditor()">✕ Limpar</button>
+      <button class="btn-mini" style="margin-left:auto;background:#111;color:#fff" onclick="closeAlliancesEditor()">✓ Fechar</button>
+    </div>
+    <div id="alliancesEditorBody" style="font-size:12px"></div>
   </div>
 </div>
 
 <!-- BRACKET EDITOR MODAL -->
 <div class="modal-bg" id="bracketModal">
   <div class="modal" style="max-width:900px">
-    <h2>Editar Brackets & Alianças</h2>
+    <h2>Editar Brackets &amp; Alianças</h2>
     <div class="sub">18 queens · 3 brackets de 6 · alianças por bracket</div>
     <div class="modal-actions">
       <button class="btn-mini" onclick="randomizeBrackets()">🎲 Distribuir aleatoriamente</button>
@@ -518,6 +593,25 @@ const LIPSYNC_SONGS = [
 "Born This Way — Lady Gaga","Bad Romance — Lady Gaga","Applause — Lady Gaga","Edge of Glory — Lady Gaga","Rain on Me — Lady Gaga & Ariana Grande","Stupid Love — Lady Gaga","Poker Face — Lady Gaga","Express Yourself — Madonna","Vogue — Madonna","Like a Prayer — Madonna","Material Girl — Madonna","Music — Madonna","Hung Up — Madonna","Toxic — Britney Spears","Stronger — Britney Spears","Oops!... I Did It Again — Britney Spears","I'm a Slave 4 U — Britney Spears","Gimme More — Britney Spears","Womanizer — Britney Spears","Til The World Ends — Britney Spears","Single Ladies — Beyoncé","Run the World (Girls) — Beyoncé","Crazy in Love — Beyoncé","Cuff It — Beyoncé","Love On Top — Beyoncé","Diva — Beyoncé","Heart of Glass — Blondie","Holding Out for a Hero — Bonnie Tyler","I Will Survive — Gloria Gaynor","It's Raining Men — The Weather Girls","Dancing Queen — ABBA","Gimme! Gimme! Gimme! — ABBA","I Wanna Dance With Somebody — Whitney Houston","It's Not Right but It's Okay — Whitney Houston","I'm Every Woman — Whitney Houston","Believe — Cher","Strong Enough — Cher","If I Could Turn Back Time — Cher","Proud Mary — Tina Turner","What's Love Got to Do With It — Tina Turner","Simply the Best — Tina Turner","Respect — Aretha Franklin","Natural Woman — Aretha Franklin","No Scrubs — TLC","Waterfalls — TLC","Don't Cha — Pussycat Dolls","Buttons — Pussycat Dolls","When I Grow Up — Pussycat Dolls","Wannabe — Spice Girls","Spice Up Your Life — Spice Girls","Lady Marmalade — Christina Aguilera","Dirrty — Christina Aguilera","Fighter — Christina Aguilera","Genie in a Bottle — Christina Aguilera","Show Me How You Burlesque — Christina Aguilera","Hold On — Wilson Phillips","Don't Stop Believin' — Journey","Goodbye to You — Scandal","Two of Hearts — Stacey Q","If I Were a Boy — Beyoncé","Listen — Beyoncé","Survivor — Destiny's Child","Bootylicious — Destiny's Child","Independent Women — Destiny's Child","I Try — Macy Gray","Rolling in the Deep — Adele","Hello — Adele","Set Fire to the Rain — Adele","No More Drama — Mary J. Blige","Family Affair — Mary J. Blige","Killing Me Softly — Fugees","Realness — RuPaul","Supermodel — RuPaul","Sissy That Walk — RuPaul","Cover Girl — RuPaul","Call Me Mother — RuPaul","Read U Wrote U — RuPaul","Look At Me — Geri Halliwell","I Hate Myself for Loving You — Joan Jett","Total Eclipse of the Heart — Bonnie Tyler","Maneater — Nelly Furtado","Promiscuous — Nelly Furtado","Say My Name — Destiny's Child","Bills, Bills, Bills — Destiny's Child","Womanizer — Britney Spears","Confident — Demi Lovato","Sorry Not Sorry — Demi Lovato","Cool For The Summer — Demi Lovato","Dark Horse — Katy Perry","Roar — Katy Perry","Firework — Katy Perry","Teenage Dream — Katy Perry","Wide Awake — Katy Perry","Problem — Ariana Grande","Side to Side — Ariana Grande","7 Rings — Ariana Grande","thank u, next — Ariana Grande","Break Free — Ariana Grande","Padam Padam — Kylie Minogue","Can't Get You Out of My Head — Kylie Minogue","Spinning Around — Kylie Minogue","All The Lovers — Kylie Minogue","Murder on the Dancefloor — Sophie Ellis-Bextor","Hot Stuff — Donna Summer","Last Dance — Donna Summer","MacArthur Park — Donna Summer","Bad Girls — Donna Summer","Show Me Love — Robin S","Finally — CeCe Peniston","Gypsy Woman — Crystal Waters","Vogue (Strike a Pose) — Madonna","Material Girl — Madonna"
 ];
 function pickSong(){ return LIPSYNC_SONGS[Math.floor(Math.random()*LIPSYNC_SONGS.length)]; }
+
+// Lipsync Assassins — queens conhecidas por serem boas em lipsync (100+)
+const LIPSYNC_ASSASSINS = [
+"Roxxxy Andrews","Shea Couleé","Jujubee","Sasha Colby","Jaida Essence Hall","Symone","Yvie Oddly","Aquaria","Kennedy Davenport","Sasha Velour",
+"Naomi Smalls","Vanessa Vanjie Mateo","Coco Montrese","Manila Luzon","Alyssa Edwards","Kameron Michaels","Asia O'Hara","Monét X Change","Trinity the Tuck","Bianca Del Rio",
+"Latrice Royale","Tatianna","Detox","Phi Phi O'Hara","Laganja Estranja","Mayhem Miller","Aja","Kim Chi","Bob the Drag Queen","Peppermint",
+"Cynthia Lee Fontaine","Eureka O'Hara","Miz Cracker","Blair St. Clair","The Vixen","Plastique Tiara","Brooke Lynn Hytes","A'keria C. Davenport","Silky Nutmeg Ganache","Nina West",
+"Scarlet Envy","Honey Davenport","Joslyn Fox","Trinity K. Bonet","Adore Delano","Courtney Act","BenDeLaCreme","Ginger Minj","Katya","Violet Chachki",
+"Pearl","Max","Miss Fame","Naysha Lopez","Robbie Turner","Acid Betty","Chi Chi DeVayne","Derrick Barry","Thorgy Thor","Nina Bo'nina Brown",
+"Valentina","Alexis Michelle","Sasha Belle","Farrah Moan","Trinity Taylor","Charlie Hides","Cynthia Lee","Dahlia Sin","Heidi N Closet","Widow Von'Du",
+"Jackie Cox","Crystal Methyd","Gigi Goode","Jan","Rock M. Sakura","Jaida Hall","Tayce","Bimini Bon Boulash","Lawrence Chaney","A'Whora",
+"Tia Kofi","Veronica Green","Krystal Versace","Anubis","Bimini","Kandy Muse","Tina Burner","Olivia Lux","Denali","LaLa Ri",
+"Utica Queen","Rosé","Elliott with 2 Ts","Mik","Joey Jay","Kahmora Hall","Tamisha Iman","DeJa Skye","Daya Betty","Jasmine Kennedie",
+"Bosco","Kornbread Jeté","Lady Camden","Maddy Morphosis","Orion Story","Willow Pill","Angeria Paris VanMicheals","Jorgeous","Anetra","Mistress Isabelle Brooks",
+"Loosey LaDuca","Salina EsTitties","Aura Mayari","Spice","Sugar","Marcia Marcia Marcia","Luxx Noir London","Sasha Sash","Plane Jane","Sapphira Cristál",
+"Nymphia Wind","Q","Mhi'ya Iman Le'Paige","Geneva Karr","Plasma","Megami","Xunami Muse","Dawn","Morphine Love Dion","Plasma"
+];
+function pickLSA(){ return LIPSYNC_ASSASSINS[Math.floor(Math.random()*LIPSYNC_ASSASSINS.length)]; }
+
 const TAG_TO_CHAL = {
   "Comédia":["Snatch Game","Roast","Acting","Advert","Rusical"],
   "Atuação":["Acting","Snatch Game","Advert","Cover","Rusical"],
@@ -810,6 +904,17 @@ function computeScore(q, chal){
   p.weaknesses.forEach(t => { if((TAG_TO_CHAL[t]||[]).includes(chal)) s -= 1.0; });
   return s;
 }
+function computePPE(q){
+  const pts={"WIN":5,"TOP2":5,"WIN_GG":5,"WIN_CUNT":5,"WIN_AS7":5,"TOP2_AS7":4.5,"WIN_TS":5,"HIGH":4,"HIGH_TEAM":4,"SAFE":3,"SAVED":3.2,"LOW":2,"BTM2":1,"BTM_BADUNK":1,"BTM_BADUNK_PINK":1,"DSHANTAY":1,"TAS_WIN":5,"TAS_LOST":4,"ELIM":0,"ELIM_GOLD":0,"QUIT":0,"DISQ":0,"IMMUNE":3,"BLOCKED_WIN_AS7":4,"BLOCKED_TOP2_AS7":3.5,"BLOCKED_HIGH":3,"BLOCKED_SAFE":2.5};
+  let s=0,c=0;
+  (q.track||[]).forEach(t=>{
+    if(!t) return;
+    if(t.status === "WINNER" || t.status === "RUNNERUP" || t.status === "FINALELIM") return; // exclude finale
+    if(pts[t.status]!==undefined){ s+=pts[t.status]; c++; }
+  });
+  return c ? s/c : 0;
+}
+
 function lipsyncScore(q){
   const p = getPerso(q.name);
   let s = Math.random()*10;
@@ -840,22 +945,34 @@ function runSimulation(stepMode){
   }
   if(selectedNames.length <= fs) return alert("Selecione mais queens que o tamanho da final!");
 
+  const isLSA = fmt === "lsa";
+  if(isLSA){
+    const fsRawL = document.getElementById("lsaFinal").value;
+    fs = fsRawL === "random" ? (2 + Math.floor(Math.random()*3)) : parseInt(fsRawL);
+  }
+  if(selectedNames.length <= fs) return alert("Selecione mais queens que o tamanho da final!");
+
   const cast = selectedNames.map(n => ({ name:n, track:[], out:false, rank:99, wins:0, outEp:999, returned:false, badunkUsed:false }));
   SIM = {
     cast, active:[...cast], eps:[], epCount:1,
     doubleShantayUsed:false, doubleSashayUsed:false, returnUsed:false, noElimUsed:false, cuntUsed:false,
-    eliminated:[], finished:false, pendingGolden:null,
+    eliminated:[], finished:false, pendingGolden:null, juryVotes:[],
     cfg:{
       fs,
       split: document.getElementById("isSplit").value === "yes",
-      isLegacy: document.getElementById("elimType").value === "legacy",
-      isBeaver: document.getElementById("elimType").value === "beaver",
+      isLegacy: fmt === "legacy" || isLSA,
+      isBeaver: fmt === "beaver",
+      isLSA,
+      lsaPickMode: document.getElementById("lsaPickMode")?.value || "random",
+      lsaBtm5: document.getElementById("lsaBtm5")?.value || "off",
+      manualElim: document.getElementById("manualElim")?.value === "on",
       useLala: document.getElementById("cLala").checked,
       usePremNoElim: document.getElementById("cPremNoElim")?.checked,
       useDouble: document.getElementById("cDouble").checked,
       useDoubleSashay: document.getElementById("cDoubleSashay").checked,
       useNoElim: document.getElementById("cNoElim").checked,
       useReturn: document.getElementById("cReturn").checked,
+      returnType: document.getElementById("returnType")?.value || "random",
       useGolden: document.getElementById("cGolden").checked,
       badunkMode: document.getElementById("badunkMode").value,
       badunkMax: parseInt(document.getElementById("badunkMax").value)||1,
@@ -879,6 +996,7 @@ function runSimulation(stepMode){
       talentMode: document.getElementById("talentMode")?.value || "random",
       talentEp: parseInt(document.getElementById("talentEp")?.value)||0,
       finaleMode: document.getElementById("finaleMode").value,
+      alliances: (GLOBAL_ALLIANCES.pairs||[]).map(p=>[...p]),
     }
   };
   const totalEpsBeforeFinal = Math.max(SIM.active.length - fs, 1);
@@ -897,6 +1015,7 @@ function runSimulation(stepMode){
     SIM.talentG1 = null; SIM.talentG2 = null; SIM.talentBottom1 = null; SIM.talentBottom2 = null;
   }
 
+  SIM.fullRunMode = !stepMode;
   if(stepMode){
     document.getElementById("stepControls").style.display = "block";
     renderTable();
@@ -909,7 +1028,19 @@ function runSimulation(stepMode){
       return;
     }
     let guard = 0;
-    while(!SIM.finished && guard++ < 200) simulateOneEpisode();
+    while(!SIM.finished && !SIM.awaitingLSAElim && !SIM.awaitingRupaul && !SIM.awaitingRupaulFinale && !SIM.awaitingManualElim && guard++ < 200) simulateOneEpisode();
+    if(SIM.awaitingLSAElim){
+      document.getElementById("stepControls").style.display = "block";
+      renderTable();
+      renderLSAPanel();
+      return;
+    }
+    if(SIM.awaitingManualElim){
+      document.getElementById("stepControls").style.display = "block";
+      renderTable();
+      renderManualElimPanel();
+      return;
+    }
     document.getElementById("stepControls").style.display = "none";
     renderTable();
   }
@@ -918,8 +1049,13 @@ function runSimulation(stepMode){
 function nextStep(){
   if(!SIM || SIM.finished){ alert("Simulação concluída."); return; }
   if(SIM.awaitingRupaul){ alert("Confirme o episódio do Modo RuPaul antes de avançar."); return; }
+  if(SIM.awaitingRupaulFinale){ alert("Confirme a Grand Finale do Modo RuPaul antes de avançar."); return; }
+  if(SIM.awaitingLSAElim){ alert("Escolha quem eliminar no painel da Lipsync Assassin antes de avançar."); return; }
+  if(SIM.awaitingManualElim){ alert("Escolha quem salvar/eliminar no painel manual antes de avançar."); return; }
   simulateOneEpisode();
   renderTable();
+  if(SIM.awaitingLSAElim) renderLSAPanel();
+  if(SIM.awaitingManualElim) renderManualElimPanel();
   if(SIM.finished) document.getElementById("stepControls").style.display = "none";
 }
 
@@ -953,6 +1089,9 @@ function simulateOneEpisode(){
       S.active.push(returnee);
       S.eliminated.splice(S.eliminated.indexOf(returnee), 1);
       S.returnUsed = true;
+      S.returneeThisEp = returnee;
+      // Força o desafio do ep de retorno: Duo Challenge se par, Girl Group se ímpar
+      S.forceChalThisEp = (S.active.length % 2 === 0) ? "Duo Challenge" : "Girl Group";
     }
   }
 
@@ -990,6 +1129,9 @@ function simulateOneEpisode(){
   if(S.flopLalaPending){
     chal = "LalaparuzaFlop";
     S.flopLalaPending = false;
+  } else if(S.forceChalThisEp){
+    chal = S.forceChalThisEp;
+    S.forceChalThisEp = null;
   } else if(isPremiere){
     chal = (C.premierePick === "random") ? pickRandomChal() : C.premierePick;
   } else {
@@ -1170,6 +1312,15 @@ function simulateOneEpisode(){
     return;
   }
 
+  // LIPSYNC ASSASSIN — non-premiere uses dedicated handler
+  if(C.isLSA && !splitNoElim && !premNoElim && !isPremiere && !leaver){
+    runLSAEpisode(parts, miniWinner, epIdx);
+    if(S.awaitingLSAElim){ return; } // aguarda escolha do usuário; cleanup/twists adiados
+    applyTwistsPostElim();
+    cleanupAfterEp();
+    return;
+  }
+
   // Random Double Win — fora de Girl Group/Duo, ~7% chance de WIN duplo aleatório
   const allowDoubleWin = !isGroupWin && !splitNoElim && !premNoElim && parts.length >= 4 && Math.random() < 0.07;
 
@@ -1241,9 +1392,12 @@ function simulateOneEpisode(){
       else if(doSashay && idx >= last-1){ res="ELIM"; q.out=true; q.rank=S.active.length-(last-idx); q.outEp=S.epCount; }
       else if(idx === last){ res = "ELIM"; q.out = true; q.rank = S.active.length; q.outEp = S.epCount; }
       else if(idx === last-1) res = "BTM2";
-      else if(idx === last-2 && last >= 4) res = C.isBeaver ? "SAVED" : "LOW";
+      else if(idx === last-2 && (C.isBeaver ? last >= 3 : last >= 4)) res = C.isBeaver ? "SAVED" : "LOW";
     }
-    q.track.push({ status: res, mini: q === miniWinner });
+    const cell = { status: res, mini: q === miniWinner };
+    // Beaver TOP4+: bottom = SAVED + BTM2 + ELIM = 3 → BTM2 mostra "BTM3"
+    if(C.isBeaver && res === "BTM2" && parts.length >= 4) cell.btmCount = 3;
+    q.track.push(cell);
   });
 
   if(C.isLegacy){
@@ -1253,6 +1407,51 @@ function simulateOneEpisode(){
     }).map(q => q.name);
     if(legacyTop2.length >= 2) S.eps[S.eps.length-1].legacyTop2 = legacyTop2;
   }
+
+  // ALLIANCE INFLUENCE — Beaver / Legacy
+  try{
+    if((C.isBeaver || C.isLegacy) && C.alliances && C.alliances.length){
+      const winnerQ = parts.find(q => { const c=q.track[epIdx]; return c && (c.status==="WIN" || c.status==="WIN_GG"); });
+      if(winnerQ){
+        const allies = getAlliesOf(winnerQ.name, C.alliances);
+        if(C.isBeaver){
+          // Find SAVED slot and BTM slots; if any ally is in BTM2/ELIM, swap with SAVED
+          const savedQ = parts.find(q => q.track[epIdx]?.status === "SAVED");
+          if(savedQ && !allies.includes(savedQ.name)){
+            const allyInBtm = parts.find(q => {
+              const st = q.track[epIdx]?.status;
+              return allies.includes(q.name) && (st === "BTM2" || st === "ELIM");
+            });
+            if(allyInBtm){
+              // swap cells
+              const sIdx = parts.indexOf(savedQ), aIdx = parts.indexOf(allyInBtm);
+              const sCell = savedQ.track[epIdx], aCell = allyInBtm.track[epIdx];
+              const aStatus = aCell.status, aBtm = aCell.btmCount;
+              aCell.status = "SAVED"; aCell.beaver = true; aCell.savedByAlly = winnerQ.name; delete aCell.btmCount;
+              sCell.status = aStatus; if(aBtm) sCell.btmCount = aBtm;
+              // out flags must move too if ELIM swapped
+              if(aStatus === "ELIM"){
+                allyInBtm.out = false; allyInBtm.outEp = 999; allyInBtm.rank = 99;
+                savedQ.out = true; savedQ.outEp = S.epCount; savedQ.rank = S.active.length;
+              }
+            }
+          }
+        } else if(C.isLegacy){
+          // Legacy: if ally is in ELIM slot, try to swap with BTM2 (non-ally)
+          const elimQ = parts.find(q => q.track[epIdx]?.status === "ELIM" && q.outEp === S.epCount);
+          if(elimQ && allies.includes(elimQ.name)){
+            const btm2Q = parts.find(q => q.track[epIdx]?.status === "BTM2" && !allies.includes(q.name));
+            if(btm2Q){
+              const eCell = elimQ.track[epIdx], bCell = btm2Q.track[epIdx];
+              eCell.status = "BTM2"; bCell.status = "ELIM"; bCell.savedByAllyVictim = true;
+              elimQ.out = false; elimQ.outEp = 999; elimQ.rank = 99;
+              btm2Q.out = true; btm2Q.outEp = S.epCount; btm2Q.rank = S.active.length;
+            }
+          }
+        }
+      }
+    }
+  }catch(e){ console.warn("Alliance hook error:", e); }
 
   if(doShantay) S.doubleShantayUsed = true;
   if(doSashay)  S.doubleSashayUsed  = true;
@@ -1307,6 +1506,26 @@ function applyTwistsPostElim(){
 
 function cleanupAfterEp(){
   const S = SIM;
+  // Override do retorno: marca o cell do retornee com IN (Girl Group) ou WIN_GG (Duo Challenge)
+  if(S.returneeThisEp){
+    const r = S.returneeThisEp;
+    const epIdx = S.epCount - 1;
+    const cell = r.track[epIdx];
+    const epName = S.eps[epIdx]?.name;
+    if(cell){
+      if(epName === "Duo Challenge"){
+        cell.status = "WIN_GG";
+        cell.returnedNow = true;
+        r.wins++;
+      } else {
+        // Girl Group ou fallback
+        cell.status = "RET_IN";
+        cell.returnedNow = true;
+      }
+      if(r.out){ r.out = false; r.rank = 99; r.outEp = 999; }
+    }
+    S.returneeThisEp = null;
+  }
   S.active.forEach(q => { if(q.out && !S.eliminated.includes(q)) S.eliminated.push(q); });
   S.active = S.active.filter(q => !q.out);
   S.epCount++;
@@ -1317,6 +1536,14 @@ function cleanupAfterEp(){
 function finalizeSeason(){
   const S = SIM;
   if(S.finished) return;
+  // RuPaul mode: ask user to pick finale rankings via inline panel
+  if(S.cfg && S.cfg.useRupaul && !S.awaitingRupaulFinale && !S._rupaulFinaleDone){
+    S.active.forEach(q => padTrack(q, S.eps.length));
+    S.awaitingRupaulFinale = { actives: S.active.slice() };
+    renderTable();
+    renderRupaulFinalePanel();
+    return;
+  }
   S.active.forEach(q => padTrack(q, S.eps.length));
   S.eps.push({ num:"FINAL", name:"Grand Finale" });
   const finalEp = S.eps[S.eps.length-1];
@@ -1410,8 +1637,8 @@ function finalizeSeason(){
     // Ranking final: vencedoras (finalists) → perdedoras de rounds (na ordem reversa de saída) → cortadas inicialmente
     award([...finalists, ...losers, ...cut]);
   } else {
-    // score-based: simplesmente vence quem tem melhor PPE final
-    S.active.forEach(q => q.finalScore = lipsyncScore(q) + q.wins*0.3);
+    // score-based: vence quem tem melhor PPE (histórico real, sem aleatoriedade)
+    S.active.forEach(q => { q.finalScore = computePPE(q) + (q.wins||0)*0.05; });
     const ranked = S.active.slice().sort((a,b) => b.finalScore - a.finalScore);
     award(ranked);
   }
@@ -1465,8 +1692,20 @@ function runLalaparuza(parts){
   // Bottom group (4 losers from R1): 1 BEAVER + 3 lipsync (50/50 elim 1 or 2)
   const bottom = r1.losers.slice();
   bottom.forEach(q => q.score = lipsyncScore(q));
-  // BEAVER = best lipsync of the 4 (Winner of the season would save them)
   bottom.sort((a,b)=>b.score-a.score);
+
+  // Se manualElim+Beaver, deixa o usuário escolher o beaver via painel (sem auto-pick aqui).
+  // O painel também escolherá os ELIM. Não rodamos auto-elim aqui.
+  if(S.cfg.isBeaver && S.cfg.manualElim){
+    // Marca todos do bottom como BTM2 temporário; o painel manual ajustará SAVED/ELIM.
+    bottom.forEach(q => q.track.push({status:"BTM2", mini:false, btmCount: bottom.length}));
+    // Sinaliza que o painel manual deve incluir todos do bottom (até 4).
+    S._lalaManualBottom = bottom.slice();
+    S.active = S.active.filter(q => !q.out);
+    return;
+  }
+
+  // BEAVER = best lipsync of the 4 (Winner of the season would save them)
   const beaver = bottom[0];
   beaver.track.push({status:"SAVED", mini:false, beaver:true});
   const btm3 = bottom.slice(1); // 3 queens
@@ -1489,7 +1728,6 @@ function runLalaparuza(parts){
   });
   S.active = S.active.filter(q => !q.out);
 }
-
 
 function runCunt(parts){
   // Top 5 special episode: 3 different mini-challenges with 1 winner each, then bottom 2 lip-sync.
@@ -1600,6 +1838,64 @@ function confirmRupaul(){
   cleanupAfterEp();
   renderTable();
   renderRupaulPanel();
+}
+
+function renderRupaulFinalePanel(){
+  const S = SIM;
+  const wrap = document.getElementById("rupaulPanel");
+  if(!wrap) return;
+  if(!S || !S.awaitingRupaulFinale){ return; }
+  const actives = S.awaitingRupaulFinale.actives;
+  const opts = [["WINNER","👑 WINNER"],["WINNER","👑 WINNER (Double Crown)"],["RUNNERUP","🥈 RUNNER-UP"],["FINALELIM","FINAL ELIM"]];
+  // simpler: each queen pick a status
+  let h = `<div style="background:#fff8e1;border:2px solid #ff2d87;border-radius:10px;padding:14px;margin:14px 0">
+    <h3 style="margin:0 0 8px;color:#ff2d87">👑 MODO RUPAUL — Grand Finale</h3>
+    <div style="font-size:11px;color:#666;margin-bottom:10px">Escolha o status final de cada finalista. Marque "Double Crown" em 2 queens para coroar ambas.</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr style="background:#111;color:#fff"><th style="padding:6px;text-align:left">Queen</th><th style="padding:6px">Resultado</th></tr></thead><tbody>`;
+  actives.forEach((q,i)=>{
+    h += `<tr style="border-bottom:1px solid #eee"><td style="padding:6px"><b>${q.name}</b></td>
+      <td style="padding:6px"><select id="ruf_st_${i}" style="width:100%">
+        <option value="WINNER">👑 WINNER</option>
+        <option value="RUNNERUP" selected>🥈 RUNNER-UP</option>
+        <option value="FINALELIM">FINAL ELIM</option>
+      </select></td></tr>`;
+  });
+  h += `</tbody></table>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button onclick="confirmRupaulFinale()" style="background:#ff2d87;color:#fff;border:0;padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer">✓ Confirmar Final</button>
+    </div></div>`;
+  wrap.innerHTML = h;
+  wrap.style.display = "block";
+}
+
+function confirmRupaulFinale(){
+  const S = SIM;
+  if(!S || !S.awaitingRupaulFinale) return;
+  const actives = S.awaitingRupaulFinale.actives;
+  const picks = actives.map((q,i)=> document.getElementById(`ruf_st_${i}`)?.value || "FINALELIM");
+  const winners = [], runners = [], elims = [];
+  actives.forEach((q,i)=>{
+    if(picks[i]==="WINNER") winners.push(q);
+    else if(picks[i]==="RUNNERUP") runners.push(q);
+    else elims.push(q);
+  });
+  if(winners.length === 0){
+    return alert("Escolha pelo menos 1 WINNER.");
+  }
+  S.eps.push({ num:"FINAL", name:"Grand Finale" + (winners.length>1?" (Double Crown)":""), doubleCrown: winners.length>1 });
+  winners.forEach((q,i)=>{
+    q.track.push({status:"WINNER", mini:false, doubleCrown: winners.length>1 && i>0});
+    q.rank = 0;
+  });
+  runners.forEach((q,i)=>{ q.track.push({status:"RUNNERUP", mini:false}); q.rank = winners.length + i; });
+  elims.forEach((q,i)=>{ q.track.push({status:"FINALELIM", mini:false}); q.rank = winners.length + runners.length + i; });
+  S.awaitingRupaulFinale = null;
+  S._rupaulFinaleDone = true;
+  S.finished = true;
+  renderTable();
+  const wrap = document.getElementById("rupaulPanel");
+  if(wrap){ wrap.style.display = "none"; wrap.innerHTML = ""; }
 }
 
 // FLOP TOTAL — 1 vence o desafio, resto vai pro bottom. Próximo ep é Lalaparuza Flop.
@@ -2001,6 +2297,9 @@ function renderTable(){
                 d.status === "DSHANTAY" ? "BTM" :
                 d.status === "IMMUNE" ? "IMMUNE" :
                 d.status === "DISQ" ? "DISQ" :
+                d.status === "RET_IN" ? "IN" :
+                d.status === "TAS_WIN" ? "WIN" :
+                d.status === "TAS_LOST" ? "TOP" :
                 d.status === "BTM2" ? ("BTM" + (d.btmCount && d.btmCount > 2 ? d.btmCount : 2)) :
                 d.status;
         }
@@ -2237,14 +2536,106 @@ function downloadTableImage(fmt){
 }
 
 let BRACKET_CFG = { brackets:[[],[],[]], alliances:[[],[],[]] };
+let GLOBAL_ALLIANCES = { pairs: [] };
+
+function getAlliesOf(name, pairs){
+  pairs = pairs || (SIM && SIM.cfg && SIM.cfg.alliances) || GLOBAL_ALLIANCES.pairs || [];
+  const out = [];
+  pairs.forEach(p => {
+    if(!p || p.length<2) return;
+    if(p[0]===name) out.push(p[1]);
+    else if(p[1]===name) out.push(p[0]);
+  });
+  return out;
+}
+function areAllies(a, b, pairs){
+  return getAlliesOf(a, pairs).includes(b);
+}
+function syncAlliancesToSelected(){
+  const sel = new Set(selectedNames);
+  GLOBAL_ALLIANCES.pairs = GLOBAL_ALLIANCES.pairs.filter(p => p && p.length===2 && sel.has(p[0]) && sel.has(p[1]) && p[0]!==p[1]);
+}
+function randomizeGlobalAlliances(){
+  syncAlliancesToSelected();
+  if(selectedNames.length < 2) return;
+  const pool = [...selectedNames].sort(()=>Math.random()-0.5);
+  GLOBAL_ALLIANCES.pairs = [];
+  // ~30-40% of queens get paired
+  const numPairs = Math.max(1, Math.floor(pool.length * 0.18));
+  for(let i=0; i<numPairs && pool.length>=2; i++){
+    GLOBAL_ALLIANCES.pairs.push([pool.shift(), pool.shift()]);
+  }
+  renderAllianceDisplay();
+}
+function clearGlobalAlliances(){
+  GLOBAL_ALLIANCES.pairs = [];
+  renderAllianceDisplay();
+}
+function renderAllianceDisplay(){
+  const el = document.getElementById("allianceListDisplay");
+  if(!el) return;
+  syncAlliancesToSelected();
+  if(!GLOBAL_ALLIANCES.pairs.length){ el.innerHTML = '<i>Nenhuma aliança configurada.</i>'; return; }
+  el.innerHTML = GLOBAL_ALLIANCES.pairs.map(p => `<span style="background:#ffd1dc;padding:3px 8px;border-radius:10px;margin:2px;display:inline-block">${p[0]} ⟷ ${p[1]}</span>`).join('');
+}
+function openAlliancesEditor(){
+  if(selectedNames.length < 2) return alert("Selecione pelo menos 2 queens.");
+  syncAlliancesToSelected();
+  renderAlliancesEditor();
+  document.getElementById("alliancesModal").classList.add("on");
+}
+function closeAlliancesEditor(){
+  document.getElementById("alliancesModal").classList.remove("on");
+  renderAllianceDisplay();
+}
+function renderAlliancesEditor(){
+  syncAlliancesToSelected();
+  const opts = selectedNames.map(n=>`<option value="${n}">${n}</option>`).join('');
+  let h = `<div style="margin-bottom:10px;padding:10px;background:#fafafa;border-radius:8px">
+    <b style="font-size:11px">Adicionar aliança:</b><br>
+    <select id="glA" style="width:auto;display:inline-block;font-size:11px;margin-top:6px">${opts}</select>
+    <select id="glB" style="width:auto;display:inline-block;font-size:11px;margin-top:6px">${opts}</select>
+    <button class="btn-mini" onclick="addGlobalAlliance()">+ Aliar</button>
+  </div>`;
+  h += `<b style="font-size:11px">Alianças atuais:</b><br>`;
+  if(!GLOBAL_ALLIANCES.pairs.length){
+    h += '<div style="margin-top:6px;color:#999;font-size:11px"><i>Nenhuma aliança.</i></div>';
+  } else {
+    h += '<div style="margin-top:6px">' + GLOBAL_ALLIANCES.pairs.map((p,i)=>`<span style="background:#ffd1dc;padding:4px 10px;border-radius:12px;margin:3px;display:inline-block;font-size:11px">${p[0]} ⟷ ${p[1]} <span style="cursor:pointer;color:#a00;margin-left:4px" onclick="removeGlobalAlliance(${i})">✕</span></span>`).join('') + '</div>';
+  }
+  document.getElementById("alliancesEditorBody").innerHTML = h;
+}
+function addGlobalAlliance(){
+  const a = document.getElementById("glA").value;
+  const b = document.getElementById("glB").value;
+  if(a===b) return alert("Escolha duas queens diferentes.");
+  const exists = GLOBAL_ALLIANCES.pairs.some(p => p.includes(a) && p.includes(b));
+  if(!exists) GLOBAL_ALLIANCES.pairs.push([a,b]);
+  renderAlliancesEditor();
+}
+function removeGlobalAlliance(i){
+  GLOBAL_ALLIANCES.pairs.splice(i,1);
+  renderAlliancesEditor();
+}
+
 
 function onFormatChange(){
   const f = document.getElementById("elimType").value;
   const isBr = f === "bracket";
   const isAW = f === "allwinners";
+  const isLSA = f === "lsa";
+  const isLegacy = f === "legacy";
+  const isBeaver = f === "beaver";
   const isSpecial = isBr || isAW;
   document.getElementById("bracketBox").style.display = isBr ? "block" : "none";
   document.getElementById("allwinnersBox").style.display = isAW ? "block" : "none";
+  const allianceBox = document.getElementById("allianceBox");
+  if(allianceBox) allianceBox.style.display = (isBeaver || isLegacy || isLSA || isAW) ? "block" : "none";
+  renderAllianceDisplay();
+  const lsaBox = document.getElementById("lsaBox");
+  if(lsaBox) lsaBox.style.display = isLSA ? "block" : "none";
+  const manualLabel = document.getElementById("manualElimLabel");
+  if(manualLabel) manualLabel.style.display = (isLegacy || isBeaver || isLSA) ? "block" : "none";
   const as11RunHint = document.getElementById("as11RunHint");
   if(as11RunHint) as11RunHint.style.display = isBr ? "block" : "none";
   const twistSection = document.getElementById("twistSection");
@@ -2267,6 +2658,10 @@ function onFormatChange(){
     document.getElementById("isSplit").value = "no";
     customQueue = [];
     updateQueueDisplay();
+  }
+  if(isLSA){
+    // Lipsync Assassin sempre 1 vencedora — força fSize via cfg.lsaFinal
+    // Final size será determinado por lsaFinal
   }
   const talentBox = document.getElementById("talentBox");
   if(talentBox && isSpecial) talentBox.style.display = "none";
@@ -2759,7 +3154,7 @@ function runAllWinnersSimulation(stepMode){
   SIM = {
     cast, active:cast.slice(), eliminated:[], eps:[], epCount:1, finished:false,
     mode:"allwinners",
-    cfg:{ fs, useDD, donationEps, miniBonusEp, useLala, finaleMode, aw7Queue:[...aw7Queue] },
+    cfg:{ fs, useDD, donationEps, miniBonusEp, useLala, finaleMode, aw7Queue:[...aw7Queue], alliances:(GLOBAL_ALLIANCES.pairs||[]).map(p=>[...p]) },
     aw7Phase:1,
   };
 
@@ -2857,7 +3252,10 @@ function runAW7Episode(){
     const donors = [lipWin, lipLos];
     donors.forEach(donor => {
       const others = queens.filter(q => q !== donor);
-      const target = others[Math.floor(Math.random()*others.length)];
+      // ALLIANCE: prefer donating to ally
+      const allies = getAlliesOf(donor.name, C.alliances||[]).map(n=>others.find(q=>q.name===n)).filter(Boolean);
+      const pool = (allies.length && Math.random()<0.8) ? allies : others;
+      const target = pool[Math.floor(Math.random()*pool.length)];
       target.points += 1;
       const dCell = donor.track[epIdx];
       dCell.donationTo = dCell.donationTo ? dCell.donationTo + ', ' + target.name : target.name;
@@ -2871,7 +3269,13 @@ function runAW7Episode(){
   // Block: lipWin bloqueia uma queen aleatória para o próximo ep (não no ep10)
   // TOP2 (lipLos) está imune — não pode ser bloqueada
   if(epNum < 10){
-    const blockable = queens.filter(q => q !== lipWin && q !== lipLos);
+    let blockable = queens.filter(q => q !== lipWin && q !== lipLos);
+    // ALLIANCE: never block an ally; prefer blocking non-allies (top scorers)
+    const allies = getAlliesOf(lipWin.name, C.alliances||[]);
+    if(allies.length){
+      const nonAllies = blockable.filter(q => !allies.includes(q.name));
+      if(nonAllies.length) blockable = nonAllies;
+    }
     const blocked = blockable[Math.floor(Math.random()*blockable.length)];
     blocked.blockedNextEp = true;
     lipWin.track[epIdx].blocks = blocked.name;
@@ -3064,7 +3468,471 @@ function renderAW7Panel(){
   return h;
 }
 
+// =============================================================
+// LIPSYNC ASSASSIN — episode handler
+// =============================================================
+function runLSAEpisode(parts, miniWinner, epIdx){
+  const S = SIM, C = S.cfg;
+  parts.sort((a,b)=>b.score-a.score);
+  const tas = parts[0]; // ÚNICA TOP All Stars
+  const others = parts.slice(1);
+  const n = parts.length;
+
+  // BTM count:
+  //   Padrão: BTM2 durante toda a temporada.
+  //   Se cfg.lsaBtm5 === "on" e active.length <= 6: escala (BTM5 no TOP6, BTM4 no TOP5, BTM3 no TOP4, BTM2 no TOP3).
+  let btmCount = 2;
+  if(C.lsaBtm5 === "on" && S.active.length <= 6){
+    btmCount = Math.max(2, S.active.length - 1);
+  }
+  if(btmCount > others.length) btmCount = others.length;
+
+  // Sempre 1 TOP All Stars + 2 HIGH (quando n >= 5), depois SAFE/BTM
+  // No modo BTM escalado, não há HIGH (todas no bottom exceto TAS).
+  const escalated = (C.lsaBtm5 === "on" && S.active.length <= 6);
+  const highCount = escalated ? 0 : Math.min(2, Math.max(0, n - 1 - btmCount));
+
+  tas.track.push({ status:"TAS_LOST", mini:tas===miniWinner }); // marca como TOP (provisório); vira TAS_WIN se ganhar o LSA
+  const last = n - 1;
+  others.forEach((q, oi) => {
+    const idx = oi + 1;
+    const fromBottom = last - idx;
+    let res;
+    if(fromBottom < btmCount) res = "BTM2";
+    else if(idx <= highCount) res = "HIGH";
+    else res = "SAFE";
+    const cell = { status: res, mini: q===miniWinner };
+    if(res === "BTM2") cell.btmCount = btmCount;
+    q.track.push(cell);
+  });
+
+  const bottomPool = parts.filter(q => { const c = q.track[epIdx]; return c && c.status === "BTM2"; });
+
+  // TAS vs LSA lipsync — 50/50
+  const lsaName = pickLSA();
+  const tasWon = Math.random() < 0.50;
+  const song = pickSong();
+  S.eps[epIdx].lsaInfo = { tas: tas.name, lsa: lsaName, song, tasWon };
+  S.eps[epIdx].lsaTas = tas.name;
+
+  if(tasWon){
+    tas.wins++;
+    const tc = tas.track[epIdx];
+    tc.status = "TAS_WIN";
+    tc.lsaOpp = lsaName;
+    if(bottomPool.length){
+      if(C.lsaPickMode === "prompt"){
+        // Pause and request user pick via inline panel
+        S.awaitingLSAElim = {
+          mode: "winnerPick",
+          bottomPool: bottomPool.slice(),
+          tas: tas.name,
+          lsaName,
+          song,
+          epIdx
+        };
+        return; // elim será aplicado em confirmLSAElim()
+      }
+      const chosen = bottomPool[Math.floor(Math.random()*bottomPool.length)];
+      applyLSAElim(chosen, epIdx);
+    }
+  } else {
+    // TAS perdeu → status fica "TAS_LOST" (cor TOP2, label "TOP")
+    const tc = tas.track[epIdx];
+    tc.lsaOpp = lsaName;
+    // Júri: outras queens votam num alvo do bottomPool
+    const voters = parts.filter(q => q !== tas);
+    const votes = {}; const voteLog = [];
+    bottomPool.forEach(q => votes[q.name] = 0);
+    voters.forEach(v => {
+      if(!bottomPool.length) return;
+      let candidates = bottomPool.filter(q => q !== v);
+      // ALLIANCE: avoid voting for own allies
+      const vAllies = getAlliesOf(v.name, C.alliances||[]);
+      if(vAllies.length){
+        const nonAllies = candidates.filter(q => !vAllies.includes(q.name));
+        if(nonAllies.length) candidates = nonAllies;
+      }
+      const pool = candidates.length ? candidates : bottomPool;
+      const target = pool[Math.floor(Math.random()*pool.length)];
+      votes[target.name] = (votes[target.name]||0)+1;
+      voteLog.push({voter:v.name, target:target.name});
+    });
+    const maxVotes = Math.max(...Object.values(votes), 0);
+    const topVoted = Object.keys(votes).filter(nm => votes[nm] === maxVotes);
+    let eliminated;
+    if(topVoted.length > 1){
+      // Empate → poder volta pra winner (TAS escolhe; random aqui)
+      eliminated = bottomPool.find(q => topVoted.includes(q.name)) || bottomPool[0];
+      S.eps[epIdx].lsaTie = true;
+    } else {
+      eliminated = bottomPool.find(q => q.name === topVoted[0]) || bottomPool[Math.floor(Math.random()*bottomPool.length)];
+    }
+    if(eliminated){
+      const cc = eliminated.track[epIdx];
+      cc.status = "ELIM";
+      eliminated.out = true; eliminated.rank = S.active.length; eliminated.outEp = S.epCount;
+    }
+    S.juryVotes.push({ ep: S.epCount, votes: {...votes}, log: voteLog, eliminated: eliminated?.name, tie: topVoted.length>1 });
+  }
+}
+
+function applyLSAElim(chosen, epIdx){
+  const S = SIM;
+  const cc = chosen.track[epIdx];
+  cc.status = "ELIM";
+  chosen.out = true; chosen.rank = S.active.length; chosen.outEp = S.epCount;
+}
+
+function renderLSAPanel(){
+  const S = SIM;
+  const wrap = document.getElementById("lsaPanel");
+  if(!wrap) return;
+  if(!S || !S.awaitingLSAElim){ wrap.style.display = "none"; wrap.innerHTML = ""; return; }
+  const a = S.awaitingLSAElim;
+  let h = `<div style="background:#fff8fb;border:2px solid var(--win-normal);border-radius:10px;padding:14px;margin:14px 0">
+    <h3 style="margin:0 0 8px;color:var(--win-normal)">🎤 TAS ${a.tas} venceu a Lipsync Assassin "${a.lsaName}"!</h3>
+    <div style="font-size:11px;color:#555;margin-bottom:10px">Música: <i>${a.song||''}</i><br>Escolha quem do bottom será eliminada. <b>O resultado só será aplicado quando você clicar.</b></div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+  a.bottomPool.forEach((q,i)=>{
+    h += `<button onclick="confirmLSAElim(${i})" style="background:var(--elim);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer">${i+1}. Eliminar ${q.name}</button>`;
+  });
+  h += `</div></div>`;
+  wrap.innerHTML = h;
+  wrap.style.display = "block";
+}
+
+function confirmLSAElim(i){
+  const S = SIM;
+  if(!S || !S.awaitingLSAElim) return;
+  const a = S.awaitingLSAElim;
+  const chosen = a.bottomPool[i];
+  if(chosen) applyLSAElim(chosen, a.epIdx);
+  S.awaitingLSAElim = null;
+  applyTwistsPostElim();
+  cleanupAfterEp();
+  renderTable();
+  renderLSAPanel();
+  // Em modo full-run, continuar até precisar parar de novo ou finalizar
+  if(S.fullRunMode){
+    let guard = 0;
+    while(!S.finished && !S.awaitingLSAElim && !S.awaitingRupaul && !S.awaitingRupaulFinale && guard++ < 200) simulateOneEpisode();
+    renderTable();
+    if(S.awaitingLSAElim) renderLSAPanel();
+    if(S.awaitingRupaul) renderRupaulPanel();
+    if(S.finished) document.getElementById("stepControls").style.display = "none";
+  }
+}
+
+// Manual elim picker — para Beaver/Legacy (PAINEL INLINE — substitui prompt())
+function buildManualElim(parts, epIdx){
+  const S = SIM, C = S.cfg;
+  if(!C.manualElim || C.isLSA) return null;
+  if(!(C.isLegacy || C.isBeaver)) return null;
+
+  // Caso especial: Lalaparuza com Beaver+manual — usa o bottom pool de até 4 queens
+  if(S._lalaManualBottom && C.isBeaver){
+    const cands = S._lalaManualBottom.slice();
+    S._lalaManualBottom = null;
+    if(cands.length < 2) return null;
+    const winnerQ = parts.find(q => { const c = q.track[epIdx]; return c && c.status === "WIN"; });
+    return { mode: "beaver_lala", candidates: cands, epIdx, winnerName: winnerQ?.name };
+  }
+
+  const allCands = parts.filter(q => {
+    const c = q.track[epIdx]; if(!c) return false;
+    return ["BTM2","ELIM","SAVED","LOW"].includes(c.status);
+  });
+  const winnerQ = parts.find(q => { const c = q.track[epIdx]; return c && c.status === "WIN"; });
+
+  if(C.isBeaver){
+    if(parts.length < 4) return null;
+    // Pega exatamente os 3 bottoms (SAVED+BTM2+ELIM) — últimos por ordem
+    const cands = allCands.filter(q => ["SAVED","BTM2","ELIM"].includes(q.track[epIdx].status)).slice(-3);
+    if(cands.length < 2) return null;
+    return { mode: "beaver", candidates: cands, epIdx, winnerName: winnerQ?.name };
+  } else {
+    const btm = allCands.filter(q => ["BTM2","ELIM"].includes(q.track[epIdx].status));
+    if(btm.length < 2) return null;
+    return { mode: "legacy", candidates: btm, epIdx, winnerName: winnerQ?.name };
+  }
+}
+
+function renderManualElimPanel(){
+  const S = SIM;
+  const wrap = document.getElementById("manualElimPanel");
+  if(!wrap) return;
+  if(!S || !S.awaitingManualElim){ wrap.style.display = "none"; wrap.innerHTML = ""; return; }
+  const a = S.awaitingManualElim;
+  const isBeaver = a.mode === "beaver" || a.mode === "beaver_lala";
+  const title = isBeaver ? "🦫 BEAVER — escolha quem é SALVA" : "👑 LEGACY — escolha quem ELIMINAR";
+  const action = isBeaver ? "Salvar" : "Eliminar";
+  const color = isBeaver ? "var(--saved)" : "var(--elim)";
+  const winnerLine = a.winnerName ? `<b>Vencedora do ep:</b> ${a.winnerName}` : "Vencedora";
+  let h = `<div style="background:#fff8e1;border:2px solid var(--accent);border-radius:10px;padding:14px;margin:14px 0">
+    <h3 style="margin:0 0 8px;color:var(--accent)">${title} — Ep ${S.epCount}</h3>
+    <div style="font-size:11px;color:#555;margin-bottom:10px">${winnerLine} escolhe. Clique numa queen para confirmar:</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+  a.candidates.forEach((q,i)=>{
+    h += `<button onclick="confirmManualElim(${i})" style="background:${color};color:#111;border:0;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer">${i+1}. ${action} ${q.name}</button>`;
+  });
+  h += `</div></div>`;
+  wrap.innerHTML = h;
+  wrap.style.display = "block";
+}
+
+function confirmManualElim(i){
+  const S = SIM;
+  if(!S || !S.awaitingManualElim) return;
+  const a = S.awaitingManualElim;
+  const chosen = a.candidates[i];
+  if(!chosen) return;
+  const epIdx = a.epIdx;
+
+  if(a.mode === "legacy"){
+    // Reset: todas BTM2, escolhida ELIM
+    a.candidates.forEach(q => { q.out=false; q.rank=99; q.outEp=999; q.track[epIdx].status = "BTM2"; });
+    // Remove a queen escolhida da lista de eliminadas se estava
+    S.eliminated = (S.eliminated || []).filter(q => q !== chosen);
+    chosen.out = true; chosen.rank = S.active.length; chosen.outEp = S.epCount;
+    chosen.track[epIdx].status = "ELIM";
+  } else {
+    // Beaver: chosen = SAVED, restante BTM2, 1 aleatória vira ELIM (ou 2 no Lala se >=4 cands)
+    a.candidates.forEach(q => {
+      q.out=false; q.rank=99; q.outEp=999;
+      q.track[epIdx].status = "BTM2";
+      q.track[epIdx].btmCount = a.candidates.length;
+    });
+    S.eliminated = (S.eliminated || []).filter(q => a.candidates.includes(q) ? false : true);
+    chosen.track[epIdx].status = "SAVED";
+    chosen.track[epIdx].beaver = true;
+    delete chosen.track[epIdx].btmCount;
+    const remaining = a.candidates.filter(q => q !== chosen);
+    // Lala: 50/50 entre 1 ou 2 eliminadas; ep normal: 1 eliminada
+    const elimCount = a.mode === "beaver_lala" && remaining.length >= 3
+      ? (Math.random() < 0.5 ? 1 : 2)
+      : 1;
+    // Shuffle e elimina
+    const shuffled = remaining.slice().sort(()=>Math.random()-0.5);
+    for(let k=0; k<elimCount && k<shuffled.length; k++){
+      const e = shuffled[k];
+      e.out = true; e.rank = S.active.length - k; e.outEp = S.epCount;
+      e.track[epIdx].status = "ELIM";
+    }
+  }
+
+  S.awaitingManualElim = null;
+  S._manualElimResolved = true;
+  // Roda twists/cleanup que foram adiados
+  applyTwistsPostElim();
+  cleanupAfterEp();
+  renderManualElimPanel();
+  renderTable();
+
+  // Continua full-run se aplicável
+  if(S.fullRunMode){
+    let guard = 0;
+    while(!S.finished && !S.awaitingLSAElim && !S.awaitingRupaul && !S.awaitingManualElim && guard++ < 200) simulateOneEpisode();
+    renderTable();
+    if(S.awaitingLSAElim) renderLSAPanel();
+    if(S.awaitingRupaul) renderRupaulPanel();
+    if(S.awaitingManualElim) renderManualElimPanel();
+    if(S.finished) document.getElementById("stepControls").style.display = "none";
+  }
+}
+
+// Hook: difere cleanup/twists até o usuário escolher (modo Beaver/Legacy manual)
+(function(){
+  const origCleanup = cleanupAfterEp;
+  cleanupAfterEp = function(){
+    if(SIM && SIM.awaitingManualElim) return;
+    return origCleanup();
+  };
+})();
+
+(function(){
+  const origApply = applyTwistsPostElim;
+  applyTwistsPostElim = function(){
+    const S = SIM, C = S.cfg;
+    if(S && S._manualElimResolved){ S._manualElimResolved = false; return origApply(); }
+    if(C && C.manualElim && (C.isLegacy || C.isBeaver) && !C.isLSA){
+      const built = buildManualElim(S.active.slice(), S.epCount - 1);
+      if(built){
+        S.awaitingManualElim = built;
+        renderManualElimPanel();
+        // Não roda origApply agora — será chamado em confirmManualElim
+        return;
+      }
+    }
+    return origApply();
+  };
+})();
+
+
+// =============================================================
+// NEW RETURN TYPES — mini / gg_vs / pairs
+// Mark non-returners with OUT_RET in the return-episode column
+// =============================================================
+function runReturnChallenge(returnEpIdx){
+  const S = SIM, C = S.cfg;
+  const type = C.returnType || "random";
+  const eliminated = S.eliminated.slice();
+  if(!eliminated.length) return null;
+  let winner = null;
+
+  if(type === "random"){
+    if(C.returnPickVal === "prompt"){
+      const list = eliminated.map((q,i)=>`${i+1}. ${q.name} (ep.${q.outEp})`).join("\n");
+      const pick = prompt(`Quem retorna no ep.${S.epCount}?\n\n${list}\n\nDigite o número:`);
+      winner = eliminated[parseInt(pick)-1] || eliminated[Math.floor(Math.random()*eliminated.length)];
+    } else {
+      winner = eliminated[Math.floor(Math.random()*eliminated.length)];
+    }
+  } else if(type === "mini"){
+    eliminated.forEach(q => q.score = computeScore(q, "Talent Show"));
+    eliminated.sort((a,b)=>b.score-a.score);
+    winner = eliminated[0];
+  } else if(type === "gg_vs" || type === "pairs"){
+    // Sempre retorna alguém (a melhor das eliminadas no Girl Group)
+    eliminated.forEach(q => q.score = computeScore(q, "Girl Group"));
+    eliminated.sort((a,b)=>b.score-a.score);
+    winner = eliminated[0];
+  }
+
+  // Marca OUT_RET para todos os não-vencedores eliminados
+  eliminated.forEach(q => {
+    if(q === winner) return;
+    while(q.track.length <= returnEpIdx) q.track.push({status:"NONE", mini:false});
+    if(q.track[returnEpIdx].status === "NONE") q.track[returnEpIdx] = {status:"OUT_RET", mini:false};
+  });
+
+  return winner;
+}
+
+// Override return handling: hook into simulateOneEpisode by replacing the
+// stock random-return block. The wrapper picks the returnee, adds her back
+// to the active list, then lets the regular episode run. After the regular
+// episode runs, we overwrite the returnee's cell with the return-specific
+// status:
+//   - mini   → WIN (returnee wins the mini-challenge of the return ep)
+//   - gg_vs  → RET_IN (IN azul escuro)
+//   - pairs  → WIN_GG (win grupal — duo challenge)
+//   - random → RUN (mantém comportamento antigo)
+(function(){
+  const orig = simulateOneEpisode;
+  simulateOneEpisode = function(){
+    const S = SIM, C = S.cfg;
+    let returnee = null, returnType = null, returnEpIdx = -1;
+    if(C && C.useReturn && !S.returnUsed && S.epCount === S.returnEp && S.eliminated.length > 0){
+      returnEpIdx = S.epCount - 1;
+      returnType = C.returnType || "random";
+      // ensure cells exist for everyone
+      S.active.forEach(q => { while(q.track.length < returnEpIdx) q.track.push({status:"NONE", mini:false}); });
+      S.eliminated.forEach(q => { while(q.track.length < returnEpIdx) q.track.push({status:"NONE", mini:false}); });
+      returnee = runReturnChallenge(returnEpIdx);
+      if(returnee){
+        returnee.out = false; returnee.rank = 99; returnee.outEp = 999; returnee.returned = true;
+        S.active.push(returnee);
+        S.eliminated.splice(S.eliminated.indexOf(returnee), 1);
+      }
+      S.returnUsed = true;
+    }
+    const result = orig.apply(this, arguments);
+    // Após rodar o ep normal, força a célula do retorno conforme o tipo
+    if(returnee && returnEpIdx >= 0){
+      while(returnee.track.length <= returnEpIdx) returnee.track.push({status:"NONE", mini:false});
+      const cell = returnee.track[returnEpIdx] || {};
+      const wasElim = cell.status === "ELIM";
+      if(returnType === "mini"){
+        returnee.track[returnEpIdx] = { status:"WIN", mini:true, returnWin:true };
+        returnee.wins++;
+      } else if(returnType === "gg_vs"){
+        returnee.track[returnEpIdx] = { status:"RET_IN", mini:false, returnWin:true };
+      } else if(returnType === "pairs"){
+        returnee.track[returnEpIdx] = { status:"WIN_GG", mini:false, returnWin:true };
+        returnee.wins++;
+      } else {
+        returnee.track[returnEpIdx] = { status:"RUN", mini:false, returnWin:true };
+      }
+      // Se o ep normal a colocou como ELIM, desfaz a eliminação (acabou de voltar)
+      if(wasElim){
+        returnee.out = false; returnee.rank = 99; returnee.outEp = 999;
+        if(S.eliminated.indexOf(returnee) !== -1) S.eliminated.splice(S.eliminated.indexOf(returnee), 1);
+        if(S.active.indexOf(returnee) === -1) S.active.push(returnee);
+      }
+    }
+    return result;
+  };
+})();
+
+// =============================================================
+// JURY VOTES + LSA panel
+// =============================================================
+(function(){
+  const origRender = renderTable;
+  renderTable = function(){
+    origRender.apply(this, arguments);
+    if(!SIM) return;
+    const out = document.getElementById("tableOutput");
+    // LSA episodes summary
+    const lsaEps = (SIM.eps||[]).filter(e => e.lsaInfo);
+    if(lsaEps.length){
+      let h = `<div class="bracket-panel" style="background:#eef2ff;border-color:#1a237e"><h3>🎤 Lipsync Assassin — Episódios</h3>`;
+      lsaEps.forEach(e => {
+        const info = e.lsaInfo;
+        h += `<div class="bracket-log-card" style="border-left-color:#1a237e">
+          <b>Ep.${e.num} — ${info.tas}</b> vs LSA <b>${info.lsa}</b> — 🎤 <i>${info.song}</i><br>
+          Resultado: ${info.tasWon ? `<b style="color:#1a237e">TAS venceu</b> — escolheu a eliminada` : `<b style="color:#7a8db5">TAS perdeu</b> — júri votou${e.lsaTie?' (empate, winner decidiu)':''}`}
+        </div>`;
+      });
+      h += `</div>`;
+      out.insertAdjacentHTML('beforeend', h);
+    }
+    // Jury vote tables
+    if(SIM.juryVotes && SIM.juryVotes.length){
+      let h = `<div class="bracket-panel" style="background:#f3e5f5;border-color:#6a1b9a"><h3>🗳️ Votos do Júri — Lipsync Assassin</h3>`;
+      SIM.juryVotes.forEach(jv => {
+        h += `<div class="bracket-log-card" style="border-left-color:#6a1b9a">
+          <b>Ep.${jv.ep}${jv.tie?' (empate — winner desempatou)':''} — eliminada: <span style="color:#c00">${jv.eliminated}</span></b>
+          <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:6px">
+            <thead><tr style="background:#6a1b9a;color:#fff"><th style="padding:4px">Alvo</th><th style="padding:4px">Votos</th></tr></thead>
+            <tbody>${Object.entries(jv.votes).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`<tr><td style="padding:4px;border-bottom:1px dotted #ddd">${n}</td><td style="padding:4px;border-bottom:1px dotted #ddd;text-align:center"><b>${c}</b></td></tr>`).join('')}</tbody>
+          </table>
+          <div style="font-size:10px;color:#666;margin-top:4px"><b>Votos individuais:</b> ${jv.log.map(l=>`${l.voter}→${l.target}`).join(' · ')}</div>
+        </div>`;
+      });
+      h += `</div>`;
+      out.insertAdjacentHTML('beforeend', h);
+    }
+  };
+})();
+
+// Render extra cell-label support for new statuses
+(function(){
+  // Adjust the table renderer's txt mapping by patching after-render? Already done via CSS classes.
+  // New statuses TAS_WIN, TAS_LOST, TAS_BOTTOM_AUTO, OUT_RET need labels. We extend via DOM rewrite.
+  const labelMap = {
+    "TAS_WIN":"TAS WIN", "TAS_LOST":"TOP 2 (LSA)", "TAS_BOTTOM_AUTO":"BTM (auto)", "OUT_RET":"OUT"
+  };
+  const origRender2 = renderTable;
+  renderTable = function(){
+    origRender2.apply(this, arguments);
+    document.querySelectorAll('#tableOutput td.stat-cell').forEach(td => {
+      Object.keys(labelMap).forEach(cls => {
+        if(td.classList.contains(cls)){
+          // only replace if cell text starts with the raw status name
+          const raw = td.firstChild;
+          if(raw && raw.nodeType === 3 && raw.nodeValue.trim() === cls){
+            raw.nodeValue = labelMap[cls];
+          }
+        }
+      });
+    });
+  };
+})();
+
 init();
 </script>
-</body>
-</html>
+
+
+</body></html>
